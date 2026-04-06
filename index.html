@@ -85,78 +85,86 @@
     margin-left: auto;
   }
 
-  .progress-bar-fill {
-    height: 100%;
-    background: var(--accent);
-  }
+  .progress-bar-fill { height: 100%; background: var(--accent); }
 
-  .cat-legend {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    padding: 1rem 5vw;
+  /* ── Tabs ── */
+  .tabs-wrap {
+    padding: 0 5vw;
     border-bottom: 1px solid var(--border);
     background: var(--card-bg);
-  }
-
-  .cat-item {
     display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-  }
-
-  .cat-pip {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  main {
-    padding: 3rem 5vw 5rem;
+    gap: 0;
     overflow-x: auto;
   }
 
-  .board {
+  .tab {
+    padding: 1rem 1.4rem 0.9rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .tab:hover { color: var(--ink); }
+
+  .tab.active {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .tab-pip {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+  }
+
+  .tab.active .tab-pip { opacity: 1; }
+
+  .tab-range {
+    font-size: 0.58rem;
+    color: var(--muted);
+    opacity: 0.7;
+  }
+
+  /* ── Card grid ── */
+  main { padding: 2rem 5vw 5rem; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
-    min-width: 560px;
   }
 
-  .col-header {
-    background: var(--card-bg);
-    padding: 0.9rem 1rem 0.8rem;
-    border-bottom: 3px solid var(--border);
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: repeat(3, 1fr); }
   }
 
-  .col-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1rem;
-    color: var(--ink);
-    display: block;
-    margin-bottom: 3px;
+  @media (max-width: 420px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
   }
-
-  .col-range {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-  }
-
-  .grid { display: contents; }
 
   .day-card {
     background: var(--card-bg);
-    padding: 1.1rem 1.1rem 1rem;
-    min-height: 120px;
+    padding: 1.1rem 1rem 1rem;
+    min-height: 130px;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -171,8 +179,8 @@
   a.day-card::after {
     content: '→';
     position: absolute;
-    bottom: 0.9rem;
-    right: 1rem;
+    bottom: 0.85rem;
+    right: 0.85rem;
     font-size: 0.85rem;
     color: var(--accent);
     opacity: 0;
@@ -182,6 +190,9 @@
   a.day-card:hover::after { opacity: 1; transform: translateX(3px); }
 
   .day-card.upcoming { background: var(--paper); }
+
+  a.day-card { border-top: 2px solid var(--active-color, var(--accent)); }
+  .day-card.upcoming { border-top: 2px solid transparent; }
 
   .day-num {
     font-family: 'DM Mono', monospace;
@@ -195,7 +206,7 @@
 
   .day-prompt {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.25;
     color: var(--ink);
     flex: 1;
@@ -205,16 +216,16 @@
 
   .day-subtitle {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: var(--muted);
-    margin-top: 0.3rem;
+    margin-top: 0.35rem;
     line-height: 1.4;
   }
 
   .day-tag {
     display: inline-block;
     font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
+    font-size: 0.55rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     padding: 2px 6px;
@@ -226,10 +237,6 @@
   .tag-done  { background: #edf5e8; color: #357a47; }
   .tag-theme { background: #fdf0e8; color: #c94a2a; }
   .tag-data  { background: #e8f0fd; color: #2a5bc9; }
-
-  .day-card-border { border-top: 2px solid transparent; }
-  a.day-card { border-top: 2px solid var(--accent); }
-  .day-card.upcoming { border-top: 2px solid transparent; }
 
   footer {
     padding: 1.5rem 5vw;
@@ -278,14 +285,7 @@
   </div>
 </header>
 
-<div class="cat-legend">
-  <div class="cat-item"><span class="cat-pip" style="background:#7c6fc4"></span>Comparisons · days 1–6</div>
-  <div class="cat-item"><span class="cat-pip" style="background:#4fa37a"></span>Distributions · days 7–12</div>
-  <div class="cat-item"><span class="cat-pip" style="background:#c97a2a"></span>Relationships · days 13–18</div>
-  <div class="cat-item"><span class="cat-pip" style="background:#2a7bc9"></span>Timeseries · days 19–24</div>
-  <div class="cat-item"><span class="cat-pip" style="background:#c94a6e"></span>Uncertainties · days 25–30</div>
-</div>
-
+<div class="tabs-wrap" id="tabs"></div>
 <main id="main"></main>
 
 <footer>
@@ -303,83 +303,107 @@ const SECTIONS = [
 ];
 
 const DAYS = [
-  { day:1,  prompt:'Part-to-whole',   cat:'comp' },
-  { day:2,  prompt:'Pictogram',       cat:'comp' },
-  { day:3,  prompt:'Mosaic',          cat:'comp' },
-  { day:4,  prompt:'Slope',           cat:'comp' },
-  { day:5,  prompt:'Experimental',    cat:'comp' },
-  { day:6,  prompt:'Data: RSF',       cat:'comp', done:true, link:'Day 6 -Reporters without Borders/', title:'Press freedom vs. wealth & inequality', tag:'done' },
-  { day:7,  prompt:'Multiscale',      cat:'dist' },
-  { day:8,  prompt:'Circular',        cat:'dist' },
-  { day:9,  prompt:'Wealth',          cat:'dist' },
-  { day:10, prompt:'Pop culture',     cat:'dist' },
-  { day:11, prompt:'Physical',        cat:'dist' },
-  { day:12, prompt:'Data: Reporters Without Borders', cat:'dist', tag:'data' },
-  { day:13, prompt:'Ecosystems',      cat:'rel' },
-  { day:14, prompt:'Trade',           cat:'rel' },
-  { day:15, prompt:'Correlation',     cat:'rel' },
-  { day:16, prompt:'Causation',       cat:'rel' },
-  { day:17, prompt:'Remake',          cat:'rel' },
+  { day:1,  prompt:'Part-to-whole',              cat:'comp' },
+  { day:2,  prompt:'Pictogram',                  cat:'comp' },
+  { day:3,  prompt:'Mosaic',                     cat:'comp' },
+  { day:4,  prompt:'Slope',                      cat:'comp' },
+  { day:5,  prompt:'Experimental',               cat:'comp' },
+  { day:6,  prompt:'Data: Reporters Without Borders', cat:'comp', done:true, link:'Day 6 -Reporters without Borders/', title:'Press freedom vs. wealth & inequality', tag:'done' },
+  { day:7,  prompt:'Multiscale',                 cat:'dist' },
+  { day:8,  prompt:'Circular',                   cat:'dist' },
+  { day:9,  prompt:'Wealth',                     cat:'dist' },
+  { day:10, prompt:'Pop culture',                cat:'dist' },
+  { day:11, prompt:'Physical',                   cat:'dist' },
+  { day:12, prompt:'Theme: FlowingData',         cat:'dist', tag:'theme' },
+  { day:13, prompt:'Ecosystems',                 cat:'rel' },
+  { day:14, prompt:'Trade',                      cat:'rel' },
+  { day:15, prompt:'Correlation',                cat:'rel' },
+  { day:16, prompt:'Causation',                  cat:'rel' },
+  { day:17, prompt:'Remake',                     cat:'rel' },
   { day:18, prompt:'Theme: South China Morning Post', cat:'rel', tag:'theme' },
-  { day:19, prompt:'Evolution',       cat:'time' },
-  { day:20, prompt:'Global change',   cat:'time' },
-  { day:21, prompt:'Historical',      cat:'time' },
-  { day:22, prompt:'New tool',        cat:'time' },
-  { day:23, prompt:'Seasons',         cat:'time' },
-  { day:24, prompt:'Data: UNICEF',    cat:'time', tag:'data' },
-  { day:25, prompt:'Space',           cat:'unc' },
-  { day:26, prompt:'Trend',           cat:'unc' },
-  { day:27, prompt:'Animation',       cat:'unc' },
-  { day:28, prompt:'Modeling',        cat:'unc' },
-  { day:29, prompt:'Monochrome',      cat:'unc' },
-  { day:30, prompt:'Theme day',       cat:'unc',  tag:'theme' },
+  { day:19, prompt:'Evolution',                  cat:'time' },
+  { day:20, prompt:'Global change',              cat:'time' },
+  { day:21, prompt:'Historical',                 cat:'time' },
+  { day:22, prompt:'New tool',                   cat:'time' },
+  { day:23, prompt:'Seasons',                    cat:'time' },
+  { day:24, prompt:'Data: UNICEF',               cat:'time', tag:'data' },
+  { day:25, prompt:'Space',                      cat:'unc' },
+  { day:26, prompt:'Trend',                      cat:'unc' },
+  { day:27, prompt:'Animation',                  cat:'unc' },
+  { day:28, prompt:'Modeling',                   cat:'unc' },
+  { day:29, prompt:'Monochrome',                 cat:'unc' },
+  { day:30, prompt:'Theme day',                  cat:'unc', tag:'theme' },
 ];
 
-const main = document.getElementById('main');
+const tabsEl = document.getElementById('tabs');
+const mainEl = document.getElementById('main');
 let doneCount = 0;
+let activeSlug = 'comp';
 
-// Build 5-column board: headers first, then cards row by row
-const board = document.createElement('div');
-board.className = 'board';
-main.appendChild(board);
+function buildCard(d, color) {
+  if (d.done) doneCount++;
+  const n = String(d.day).padStart(2, '0');
+  const el = document.createElement(d.done ? 'a' : 'div');
+  el.className = 'day-card ' + (d.done ? '' : 'upcoming');
+  if (d.done && d.link) {
+    // encode each path segment to handle spaces safely
+    el.href = d.link.split('/').map(s => encodeURIComponent(s)).join('/') + '/';
+  }
+  if (d.done) el.style.setProperty('--active-color', color);
 
-// Row 1: column headers
-SECTIONS.forEach(sec => {
-  const h = document.createElement('div');
-  h.className = 'col-header';
-  h.style.borderBottomColor = sec.color;
-  h.innerHTML = `
-    <span class="col-title">${sec.title}</span>
-    <span class="col-range">${sec.range}</span>
+  let tagHtml = '';
+  if (d.tag === 'done')  tagHtml = `<span class="day-tag tag-done">Complete</span>`;
+  if (d.tag === 'theme') tagHtml = `<span class="day-tag tag-theme">Theme day</span>`;
+  if (d.tag === 'data')  tagHtml = `<span class="day-tag tag-data">Data day</span>`;
+
+  el.innerHTML = `
+    <div class="day-num">Day ${n}</div>
+    <div class="day-prompt">${d.prompt}</div>
+    ${d.title ? `<div class="day-subtitle">${d.title}</div>` : ''}
+    ${tagHtml}
   `;
-  board.appendChild(h);
+  return el;
+}
+
+// Build tabs + panels
+SECTIONS.forEach(sec => {
+  const days = DAYS.filter(d => d.cat === sec.slug);
+
+  // Tab button
+  const tab = document.createElement('button');
+  tab.className = 'tab' + (sec.slug === activeSlug ? ' active' : '');
+  tab.dataset.slug = sec.slug;
+  tab.style.borderBottomColor = sec.slug === activeSlug ? sec.color : 'transparent';
+  tab.innerHTML = `
+    <span class="tab-pip" style="background:${sec.color}"></span>
+    ${sec.title}
+    <span class="tab-range">${sec.range}</span>
+  `;
+  tab.addEventListener('click', () => switchTab(sec.slug));
+  tabsEl.appendChild(tab);
+
+  // Panel
+  const panel = document.createElement('div');
+  panel.className = 'panel' + (sec.slug === activeSlug ? ' active' : '');
+  panel.dataset.slug = sec.slug;
+
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+  days.forEach(d => grid.appendChild(buildCard(d, sec.color)));
+  panel.appendChild(grid);
+  mainEl.appendChild(panel);
 });
 
-// Rows 2-7: day cards, one per section per row
-for (let row = 0; row < 6; row++) {
-  SECTIONS.forEach(sec => {
-    const days = DAYS.filter(d => d.cat === sec.slug);
-    const d = days[row];
-    if (!d) { board.appendChild(document.createElement('div')); return; }
-
-    if (d.done) doneCount++;
-    const n = String(d.day).padStart(2, '0');
-    const el = document.createElement(d.done ? 'a' : 'div');
-    el.className = 'day-card ' + (d.done ? '' : 'upcoming');
-    if (d.done && d.link) el.href = d.link;
-
-    let tagHtml = '';
-    if (d.tag === 'done')  tagHtml = `<span class="day-tag tag-done">Complete</span>`;
-    if (d.tag === 'theme') tagHtml = `<span class="day-tag tag-theme">Theme day</span>`;
-    if (d.tag === 'data')  tagHtml = `<span class="day-tag tag-data">Data day</span>`;
-
-    el.innerHTML = `
-      <div class="day-num">Day ${n}</div>
-      <div class="day-prompt">${d.prompt}</div>
-      ${d.title ? `<div class="day-subtitle">${d.title}</div>` : ''}
-      ${tagHtml}
-    `;
-    board.appendChild(el);
+function switchTab(slug) {
+  activeSlug = slug;
+  document.querySelectorAll('.tab').forEach(t => {
+    const sec = SECTIONS.find(s => s.slug === t.dataset.slug);
+    const isActive = t.dataset.slug === slug;
+    t.classList.toggle('active', isActive);
+    t.style.borderBottomColor = isActive ? sec.color : 'transparent';
+  });
+  document.querySelectorAll('.panel').forEach(p => {
+    p.classList.toggle('active', p.dataset.slug === slug);
   });
 }
 
