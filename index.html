@@ -116,38 +116,42 @@
     flex-shrink: 0;
   }
 
-  main { padding: 3rem 5vw 5rem; }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border);
+  main {
+    padding: 3rem 5vw 5rem;
+    overflow-x: auto;
   }
 
-  .section-title {
+  .board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    min-width: 560px;
+  }
+
+  .col-header {
+    background: var(--card-bg);
+    padding: 0.9rem 1rem 0.8rem;
+    border-bottom: 3px solid var(--border);
+  }
+
+  .col-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem;
+    font-size: 1rem;
     color: var(--ink);
+    display: block;
+    margin-bottom: 3px;
   }
 
-  .section-days {
+  .col-range {
     font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
+    font-size: 0.58rem;
     color: var(--muted);
     letter-spacing: 0.06em;
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    margin-bottom: 2.5rem;
-  }
+  .grid { display: contents; }
 
   .day-card {
     background: var(--card-bg);
@@ -304,7 +308,7 @@ const DAYS = [
   { day:3,  prompt:'Mosaic',          cat:'comp' },
   { day:4,  prompt:'Slope',           cat:'comp' },
   { day:5,  prompt:'Experimental',    cat:'comp' },
-  { day:6,  prompt:'Data: RSF',       cat:'comp', done:true, link:'day06/', title:'Press freedom vs. wealth & inequality', tag:'done' },
+  { day:6,  prompt:'Data: RSF',       cat:'comp', done:true, link:'Day 6 -Reporters without Borders/', title:'Press freedom vs. wealth & inequality', tag:'done' },
   { day:7,  prompt:'Multiscale',      cat:'dist' },
   { day:8,  prompt:'Circular',        cat:'dist' },
   { day:9,  prompt:'Wealth',          cat:'dist' },
@@ -334,21 +338,30 @@ const DAYS = [
 const main = document.getElementById('main');
 let doneCount = 0;
 
+// Build 5-column board: headers first, then cards row by row
+const board = document.createElement('div');
+board.className = 'board';
+main.appendChild(board);
+
+// Row 1: column headers
 SECTIONS.forEach(sec => {
-  const days = DAYS.filter(d => d.cat === sec.slug);
-
-  const sh = document.createElement('div');
-  sh.className = 'section-header';
-  sh.innerHTML = `
-    <span class="section-title" style="border-bottom:2px solid ${sec.color};padding-bottom:2px;">${sec.title}</span>
-    <span class="section-days">${sec.range}</span>
+  const h = document.createElement('div');
+  h.className = 'col-header';
+  h.style.borderBottomColor = sec.color;
+  h.innerHTML = `
+    <span class="col-title">${sec.title}</span>
+    <span class="col-range">${sec.range}</span>
   `;
-  main.appendChild(sh);
+  board.appendChild(h);
+});
 
-  const grid = document.createElement('div');
-  grid.className = 'grid';
+// Rows 2-7: day cards, one per section per row
+for (let row = 0; row < 6; row++) {
+  SECTIONS.forEach(sec => {
+    const days = DAYS.filter(d => d.cat === sec.slug);
+    const d = days[row];
+    if (!d) { board.appendChild(document.createElement('div')); return; }
 
-  days.forEach(d => {
     if (d.done) doneCount++;
     const n = String(d.day).padStart(2, '0');
     const el = document.createElement(d.done ? 'a' : 'div');
@@ -366,11 +379,9 @@ SECTIONS.forEach(sec => {
       ${d.title ? `<div class="day-subtitle">${d.title}</div>` : ''}
       ${tagHtml}
     `;
-    grid.appendChild(el);
+    board.appendChild(el);
   });
-
-  main.appendChild(grid);
-});
+}
 
 document.getElementById('done-count').textContent = doneCount;
 document.getElementById('progress-fill').style.width = (doneCount / 30 * 100).toFixed(1) + '%';
