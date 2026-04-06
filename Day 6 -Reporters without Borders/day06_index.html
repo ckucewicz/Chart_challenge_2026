@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 06 — Press Freedom vs. Wealth · #30DayChartChallenge 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f2eb;
+    --accent: #c94a2a;
+    --muted: #9a9589;
+    --card-bg: #ffffff;
+    --border: #e0dbd0;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  nav {
+    padding: 1rem 5vw;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  nav a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  nav a:hover { text-decoration: underline; }
+  nav .sep { color: var(--border); }
+
+  header {
+    padding: 3rem 5vw 2rem;
+    max-width: 900px;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .deck {
+    font-size: 1rem;
+    color: #5a5650;
+    line-height: 1.65;
+    max-width: 620px;
+  }
+
+  .chart-wrap {
+    margin: 2rem 5vw;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+  }
+
+  .controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .toggle-btn {
+    padding: 6px 16px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+  }
+
+  .toggle-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .controls-sep {
+    width: 1px; height: 20px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+
+  select {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  #legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .leg-item { display: flex; align-items: center; gap: 5px; }
+  .leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  #chart-container {
+    position: relative;
+    width: 100%;
+    height: 460px;
+  }
+
+  #tip {
+    position: absolute;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    max-width: 200px;
+    z-index: 10;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  .chart-footer {
+    margin-top: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    line-height: 1.7;
+  }
+
+  .annotations {
+    margin: 2rem 5vw;
+    max-width: 720px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .annotation {
+    background: var(--card-bg);
+    padding: 1.25rem;
+  }
+
+  .annotation .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  .annotation p {
+    font-size: 0.85rem;
+    color: #5a5650;
+    line-height: 1.6;
+  }
+
+  footer {
+    margin-top: 4rem;
+    padding: 1.5rem 5vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../">30 Day Chart Challenge 2026</a>
+  <span class="sep">/</span>
+  <span>Day 06 — Comparisons · Theme: FlowingData</span>
+</nav>
+
+<header>
+  <p class="eyebrow">Day 06 · April 6, 2026 · Comparisons</p>
+  <h1>Press Freedom<br>vs. <em>National Wealth</em><br>& Inequality</h1>
+  <p class="deck">
+    How does a country's wealth and income inequality relate to how freely its journalists can work?
+    Toggle between GDP per capita and Gini coefficient to explore two different lenses on the same question.
+  </p>
+</header>
+
+<div class="chart-wrap">
+  <div class="controls">
+    <button class="toggle-btn active" id="btn-gdp" onclick="switchMode('gdp')">GDP per capita</button>
+    <button class="toggle-btn" id="btn-gini" onclick="switchMode('gini')">Gini coefficient</button>
+    <div class="controls-sep"></div>
+    <select id="zone-sel" onchange="redraw()">
+      <option value="all">All regions</option>
+      <option value="UE Balkans">EU & Balkans</option>
+      <option value="Amériques">Americas</option>
+      <option value="Asie-Pacifique">Asia-Pacific</option>
+      <option value="Afrique">Africa</option>
+      <option value="EEAC">E. Europe & C. Asia</option>
+      <option value="MENA">MENA</option>
+    </select>
+  </div>
+
+  <div id="legend"></div>
+
+  <div id="chart-container">
+    <canvas id="chart"></canvas>
+    <div id="tip"></div>
+  </div>
+
+  <div class="chart-footer">
+    Sources: RSF World Press Freedom Index 2024 · World Bank GDP per capita (PPP) · World Inequality Database (Gini coefficient, pre-tax)<br>
+    Note: Gini data unavailable for ~30 countries. GDP shown on logarithmic scale.
+  </div>
+</div>
+
+<div class="annotations">
+  <div class="annotation">
+    <div class="label">GDP lens</div>
+    <p>Wealthier countries strongly tend toward higher press freedom — but Gulf states like Qatar, UAE, and Saudi Arabia are clear outliers, combining high GDP with restricted press.</p>
+  </div>
+  <div class="annotation">
+    <div class="label">Gini lens</div>
+    <p>The relationship is messier. High inequality doesn't reliably predict low press freedom — some unequal countries score surprisingly well, making this a more nuanced story.</p>
+  </div>
+  <div class="annotation">
+    <div class="label">Both lenses</div>
+    <p>Hover any dot to see both metrics at once. The countries that break the pattern — rich but unfree, or poor but free — are often the most interesting to examine.</p>
+  </div>
+</div>
+
+<footer>
+  <p>#30DayChartChallenge 2026 · <a href="../">← Back to all days</a></p>
+  <p>Data: <a href="https://rsf.org/en/index" target="_blank">RSF</a> · <a href="https://data.worldbank.org" target="_blank">World Bank</a> · <a href="https://wid.world" target="_blank">WID</a></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA = [{"iso":"NOR","country":"Norway","zone":"UE Balkans","score":91.89,"gdp":91105.0,"gini":0.4055},{"iso":"DNK","country":"Denmark","zone":"UE Balkans","score":89.6,"gdp":71431.0,"gini":0.4417},{"iso":"SWE","country":"Sweden","zone":"UE Balkans","score":88.32,"gdp":62979.0,"gini":0.3971},{"iso":"NLD","country":"Netherlands","zone":"UE Balkans","score":87.73,"gdp":70499.0,"gini":0.4241},{"iso":"FIN","country":"Finland","zone":"UE Balkans","score":86.55,"gdp":56123.0,"gini":0.433},{"iso":"EST","country":"Estonia","zone":"UE Balkans","score":86.44,"gdp":41190.0,"gini":0.5422},{"iso":"PRT","country":"Portugal","zone":"UE Balkans","score":85.9,"gdp":42197.0,"gini":0.4656},{"iso":"IRL","country":"Ireland","zone":"UE Balkans","score":85.59,"gdp":119038.0,"gini":0.4792},{"iso":"CHE","country":"Switzerland","zone":"UE Balkans","score":84.01,"gdp":82286.0,"gini":0.4234},{"iso":"DEU","country":"Germany","zone":"UE Balkans","score":83.84,"gdp":62555.0,"gini":0.49},{"iso":"LUX","country":"Luxembourg","zone":"UE Balkans","score":83.8,"gdp":128475.0,"gini":0.4595},{"iso":"LVA","country":"Latvia","zone":"UE Balkans","score":82.9,"gdp":37612.0,"gini":0.4926},{"iso":"LTU","country":"Lithuania","zone":"UE Balkans","score":81.73,"gdp":47165.0,"gini":0.5026},{"iso":"CAN","country":"Canada","zone":"Amériques","score":81.7,"gdp":56707.0,"gini":0.5047},{"iso":"BEL","country":"Belgium","zone":"UE Balkans","score":81.49,"gdp":63348.0,"gini":0.4506},{"iso":"CZE","country":"Czechia","zone":"UE Balkans","score":80.14,"gdp":47964.0,"gini":0.3812},{"iso":"ISL","country":"Iceland","zone":"UE Balkans","score":80.13,"gdp":67310.0,"gini":0.3953},{"iso":"NZL","country":"New Zealand","zone":"Asie-Pacifique","score":79.72,"gdp":49316.0,"gini":0.4649},{"iso":"TLS","country":"East Timor","zone":"Asie-Pacifique","score":78.92,"gdp":3891.0,"gini":null},{"iso":"FRA","country":"France","zone":"UE Balkans","score":78.65,"gdp":54799.0,"gini":0.4592},{"iso":"WSM","country":"Samoa","zone":"Asie-Pacifique","score":78.41,"gdp":7686.0,"gini":null},{"iso":"GBR","country":"United Kingdom","zone":"UE Balkans","score":77.51,"gdp":52621.0,"gini":0.4683},{"iso":"JAM","country":"Jamaica","zone":"Amériques","score":77.3,"gdp":11340.0,"gini":null},{"iso":"TTO","country":"Trinidad & Tobago","zone":"Amériques","score":76.69,"gdp":31960.0,"gini":null},{"iso":"CRI","country":"Costa Rica","zone":"Amériques","score":76.13,"gdp":26973.0,"gini":0.6535},{"iso":"SVK","country":"Slovakia","zone":"UE Balkans","score":76.03,"gdp":40319.0,"gini":0.3785},{"iso":"ESP","country":"Spain","zone":"UE Balkans","score":76.01,"gdp":48460.0,"gini":0.4464},{"iso":"MDA","country":"Moldova","zone":"EEAC","score":74.86,"gdp":16377.0,"gini":0.4936},{"iso":"AUT","country":"Austria","zone":"UE Balkans","score":74.69,"gdp":63788.0,"gini":0.4182},{"iso":"MRT","country":"Mauritania","zone":"Afrique","score":74.2,"gdp":6483.0,"gini":0.5164},{"iso":"NAM","country":"Namibia","zone":"Afrique","score":74.16,"gdp":10281.0,"gini":0.7366},{"iso":"DOM","country":"Dominican Rep.","zone":"Amériques","score":73.89,"gdp":24230.0,"gini":0.6059},{"iso":"MKD","country":"N. Macedonia","zone":"UE Balkans","score":73.78,"gdp":24203.0,"gini":0.4382},{"iso":"ZAF","country":"South Africa","zone":"Afrique","score":73.73,"gdp":13598.0,"gini":0.7465},{"iso":"AUS","country":"Australia","zone":"Asie-Pacifique","score":73.42,"gdp":60304.0,"gini":0.4923},{"iso":"ARM","country":"Armenia","zone":"EEAC","score":71.6,"gdp":20079.0,"gini":0.5529},{"iso":"ITA","country":"Italy","zone":"UE Balkans","score":69.8,"gdp":53265.0,"gini":0.434},{"iso":"POL","country":"Poland","zone":"UE Balkans","score":69.17,"gdp":45153.0,"gini":0.4857},{"iso":"HRV","country":"Croatia","zone":"UE Balkans","score":68.79,"gdp":42829.0,"gini":0.4715},{"iso":"ROU","country":"Romania","zone":"UE Balkans","score":68.45,"gdp":40504.0,"gini":0.541},{"iso":"GHA","country":"Ghana","zone":"Afrique","score":67.71,"gdp":7056.0,"gini":0.6078},{"iso":"URY","country":"Uruguay","zone":"Amériques","score":67.7,"gdp":32039.0,"gini":0.5583},{"iso":"CHL","country":"Chile","zone":"Amériques","score":67.32,"gdp":30183.0,"gini":0.7054},{"iso":"USA","country":"United States","zone":"Amériques","score":66.59,"gdp":75489.0,"gini":0.5869},{"iso":"GAB","country":"Gabon","zone":"Afrique","score":65.83,"gdp":18924.0,"gini":0.5594},{"iso":"MUS","country":"Mauritius","zone":"Afrique","score":65.55,"gdp":28011.0,"gini":0.5747},{"iso":"GMB","country":"Gambia","zone":"Afrique","score":65.53,"gdp":3058.0,"gini":0.5864},{"iso":"BGR","country":"Bulgaria","zone":"UE Balkans","score":65.32,"gdp":34222.0,"gini":0.5501},{"iso":"LBR","country":"Liberia","zone":"Afrique","score":65.13,"gdp":1646.0,"gini":0.5488},{"iso":"UKR","country":"Ukraine","zone":"EEAC","score":65.0,"gdp":16320.0,"gini":null},{"iso":"KOR","country":"South Korea","zone":"Asie-Pacifique","score":64.87,"gdp":55071.0,"gini":0.5032},{"iso":"MWI","country":"Malawi","zone":"Afrique","score":64.46,"gdp":1634.0,"gini":0.5885},{"iso":"SLE","country":"Sierra Leone","zone":"Afrique","score":64.27,"gdp":3099.0,"gini":0.5711},{"iso":"CYP","country":"Cyprus","zone":"UE Balkans","score":63.14,"gdp":52636.0,"gini":0.4491},{"iso":"ARG","country":"Argentina","zone":"Amériques","score":63.13,"gdp":26772.0,"gini":0.5721},{"iso":"HUN","country":"Hungary","zone":"UE Balkans","score":62.98,"gdp":40687.0,"gini":0.4328},{"iso":"JPN","country":"Japan","zone":"Asie-Pacifique","score":62.12,"gdp":46107.0,"gini":0.5148},{"iso":"MLT","country":"Malta","zone":"UE Balkans","score":60.96,"gdp":62700.0,"gini":0.4706},{"iso":"NPL","country":"Nepal","zone":"Asie-Pacifique","score":60.52,"gdp":5047.0,"gini":0.5411},{"iso":"CAF","country":"Cent. African Rep.","zone":"Afrique","score":60.12,"gdp":1111.0,"gini":0.6157},{"iso":"GUY","country":"Guyana","zone":"Amériques","score":60.1,"gdp":70517.0,"gini":null},{"iso":"GIN","country":"Guinea","zone":"Afrique","score":59.97,"gdp":4016.0,"gini":0.4947},{"iso":"BWA","country":"Botswana","zone":"Afrique","score":59.78,"gdp":18069.0,"gini":0.7114},{"iso":"NER","country":"Niger","zone":"Afrique","score":59.71,"gdp":1803.0,"gini":0.5503},{"iso":"BRA","country":"Brazil","zone":"Amériques","score":58.59,"gdp":19652.0,"gini":0.6973},{"iso":"QAT","country":"Qatar","zone":"MENA","score":58.48,"gdp":110890.0,"gini":0.6737},{"iso":"SWZ","country":"Eswatini","zone":"Afrique","score":58.31,"gdp":10380.0,"gini":0.7047},{"iso":"THA","country":"Thailand","zone":"Asie-Pacifique","score":58.12,"gdp":21741.0,"gini":0.6429},{"iso":"GRC","country":"Greece","zone":"UE Balkans","score":57.15,"gdp":37474.0,"gini":0.4534},{"iso":"BEN","country":"Benin","zone":"Afrique","score":56.73,"gdp":3901.0,"gini":0.5469},{"iso":"SRB","country":"Serbia","zone":"UE Balkans","score":54.48,"gdp":26901.0,"gini":0.5154},{"iso":"ALB","country":"Albania","zone":"UE Balkans","score":54.1,"gdp":21641.0,"gini":0.492},{"iso":"ISR","country":"Israel","zone":"MENA","score":53.23,"gdp":47339.0,"gini":0.5986},{"iso":"KEN","country":"Kenya","zone":"Afrique","score":53.22,"gdp":5845.0,"gini":0.5953},{"iso":"GEO","country":"Georgia","zone":"EEAC","score":53.05,"gdp":24884.0,"gini":0.5932},{"iso":"MYS","country":"Malaysia","zone":"Asie-Pacifique","score":52.07,"gdp":34116.0,"gini":0.4807},{"iso":"IDN","country":"Indonesia","zone":"Asie-Pacifique","score":51.15,"gdp":14470.0,"gini":0.5984},{"iso":"TUN","country":"Tunisia","zone":"MENA","score":49.97,"gdp":12775.0,"gini":0.6253},{"iso":"COL","country":"Colombia","zone":"Amériques","score":49.63,"gdp":18477.0,"gini":0.7492},{"iso":"MEX","country":"Mexico","zone":"Amériques","score":49.01,"gdp":22040.0,"gini":0.7087},{"iso":"PER","country":"Peru","zone":"Amériques","score":47.76,"gdp":15662.0,"gini":0.6966},{"iso":"SGP","country":"Singapore","zone":"Asie-Pacifique","score":47.19,"gdp":132570.0,"gini":0.5445},{"iso":"KWT","country":"Kuwait","zone":"MENA","score":44.66,"gdp":46137.0,"gini":0.5503},{"iso":"JOR","country":"Jordan","zone":"MENA","score":44.3,"gdp":9520.0,"gini":0.5898},{"iso":"PHL","country":"Philippines","zone":"Asie-Pacifique","score":43.36,"gdp":10376.0,"gini":0.5717},{"iso":"HKG","country":"Hong Kong","zone":"Asie-Pacifique","score":43.06,"gdp":66154.0,"gini":0.5932},{"iso":"OMN","country":"Oman","zone":"MENA","score":42.52,"gdp":36721.0,"gini":0.676},{"iso":"DZA","country":"Algeria","zone":"MENA","score":41.98,"gdp":15502.0,"gini":0.5801},{"iso":"LBN","country":"Lebanon","zone":"MENA","score":41.91,"gdp":11330.0,"gini":0.6216},{"iso":"ETH","country":"Ethiopia","zone":"Afrique","score":41.37,"gdp":2892.0,"gini":0.5157},{"iso":"KAZ","country":"Kazakhstan","zone":"EEAC","score":41.11,"gdp":35974.0,"gini":0.5314},{"iso":"RWA","country":"Rwanda","zone":"Afrique","score":40.54,"gdp":3265.0,"gini":0.6112},{"iso":"BTN","country":"Bhutan","zone":"Asie-Pacifique","score":37.29,"gdp":14610.0,"gini":0.5489},{"iso":"UZB","country":"Uzbekistan","zone":"EEAC","score":37.27,"gdp":10450.0,"gini":0.5689},{"iso":"SDN","country":"Sudan","zone":"Afrique","score":35.73,"gdp":1861.0,"gini":0.5537},{"iso":"LKA","country":"Sri Lanka","zone":"Asie-Pacifique","score":35.21,"gdp":13753.0,"gini":0.5911},{"iso":"KHM","country":"Cambodia","zone":"Asie-Pacifique","score":34.28,"gdp":7009.0,"gini":0.5805},{"iso":"PAK","country":"Pakistan","zone":"Asie-Pacifique","score":33.9,"gdp":5500.0,"gini":0.5298},{"iso":"LAO","country":"Laos","zone":"Asie-Pacifique","score":33.76,"gdp":8600.0,"gini":0.6013},{"iso":"IND","country":"India","zone":"Asie-Pacifique","score":31.28,"gdp":9818.0,"gini":0.6392},{"iso":"ARE","country":"UAE","zone":"MENA","score":30.62,"gdp":69702.0,"gini":0.5994},{"iso":"RUS","country":"Russia","zone":"EEAC","score":29.86,"gdp":41705.0,"gini":0.5397},{"iso":"AZE","country":"Azerbaijan","zone":"EEAC","score":27.99,"gdp":22072.0,"gini":0.5556},{"iso":"BGD","country":"Bangladesh","zone":"Asie-Pacifique","score":27.64,"gdp":8487.0,"gini":0.5298},{"iso":"SAU","country":"Saudi Arabia","zone":"MENA","score":27.14,"gdp":62793.0,"gini":0.6428},{"iso":"EGY","country":"Egypt","zone":"MENA","score":25.1,"gdp":16798.0,"gini":0.5773},{"iso":"MMR","country":"Myanmar","zone":"Asie-Pacifique","score":24.41,"gdp":5276.0,"gini":0.5455},{"iso":"CHN","country":"China","zone":"Asie-Pacifique","score":23.36,"gdp":23846.0,"gini":0.5536},{"iso":"BHR","country":"Bahrain","zone":"MENA","score":23.21,"gdp":58892.0,"gini":0.67},{"iso":"VNM","country":"Vietnam","zone":"Asie-Pacifique","score":22.31,"gdp":14415.0,"gini":0.5616},{"iso":"TKM","country":"Turkmenistan","zone":"EEAC","score":22.01,"gdp":18662.0,"gini":0.5971},{"iso":"IRN","country":"Iran","zone":"MENA","score":21.3,"gdp":17484.0,"gini":0.5401},{"iso":"AFG","country":"Afghanistan","zone":"Asie-Pacifique","score":19.09,"gdp":1984.0,"gini":0.5154},{"iso":"SYR","country":"Syria","zone":"MENA","score":17.41,"gdp":4455.0,"gini":0.657}];
+
+const ZONE_COLORS = {
+  'UE Balkans':'#7c6fc4','Amériques':'#c97a2a',
+  'Asie-Pacifique':'#4fa37a','Afrique':'#c9a12a',
+  'EEAC':'#c94a6e','MENA':'#2a7bc9'
+};
+const ZONE_LABELS = {
+  'UE Balkans':'EU & Balkans','Amériques':'Americas',
+  'Asie-Pacifique':'Asia-Pacific','Afrique':'Africa',
+  'EEAC':'E. Europe & C. Asia','MENA':'MENA'
+};
+const LABEL_ALWAYS = ['Norway','Denmark','Luxembourg','Ireland','Singapore','Qatar',
+  'Saudi Arabia','United States','China','Eritrea','Namibia','South Africa',
+  'Colombia','Russia','UAE','Hong Kong','Brunei'];
+
+let mode = 'gdp';
+let chart;
+
+document.getElementById('legend').innerHTML = Object.entries(ZONE_LABELS).map(([k,v]) =>
+  `<span class="leg-item"><span class="leg-dot" style="background:${ZONE_COLORS[k]}"></span>${v}</span>`
+).join('');
+
+function getFiltered(zone) {
+  const key = mode === 'gdp' ? 'gdp' : 'gini';
+  return DATA.filter(d => d[key] != null && (zone === 'all' || d.zone === zone));
+}
+
+function buildDatasets(zone) {
+  return Object.keys(ZONE_COLORS).map(z => {
+    const pts = getFiltered(zone).filter(d => d.zone === z);
+    const faded = zone !== 'all' && zone !== z;
+    return {
+      label: z,
+      data: pts.map(d => ({ x: mode==='gdp'?d.gdp:d.gini, y:d.score, country:d.country, zone:d.zone, gdp:d.gdp, gini:d.gini })),
+      backgroundColor: ZONE_COLORS[z] + (faded?'25':'aa'),
+      borderColor: ZONE_COLORS[z] + (faded?'30':'dd'),
+      borderWidth: faded ? 0 : 1,
+      pointRadius: 5, pointHoverRadius: 7,
+    };
+  });
+}
+
+const axisConfig = {
+  gdp:  { type:'logarithmic', label:'GDP per capita, PPP (USD, log scale)', min:900, max:200000,
+          ticks: v => [1000,2000,5000,10000,20000,50000,100000].includes(v) ? '$'+(v>=1000?(v/1000)+'k':v) : null },
+  gini: { type:'linear', label:'Gini coefficient (higher = more unequal)', min:0.35, max:0.8,
+          ticks: v => v.toFixed(2) }
+};
+
+function buildChart() {
+  const zone = document.getElementById('zone-sel').value;
+  const ax = axisConfig[mode];
+  if (chart) chart.destroy();
+  const ctx = document.getElementById('chart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'scatter',
+    data: { datasets: buildDatasets(zone) },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 350 },
+      layout: { padding: { top:8, right:24, bottom:8, left:4 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          enabled: false,
+          external({ tooltip }) {
+            const tip = document.getElementById('tip');
+            if (!tooltip.opacity) { tip.style.opacity=0; return; }
+            const pt = tooltip.dataPoints[0].raw;
+            const gdpStr = pt.gdp ? '$'+Math.round(pt.gdp).toLocaleString() : 'N/A';
+            const giniStr = pt.gini ? pt.gini.toFixed(3) : 'N/A';
+            tip.innerHTML = `
+              <div style="font-weight:500;margin-bottom:3px;">${pt.country}</div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:7px;">${ZONE_LABELS[pt.zone]}</div>
+              <div style="display:flex;justify-content:space-between;gap:14px;margin-bottom:2px;">
+                <span style="color:var(--muted);">Press freedom</span><strong>${pt.y.toFixed(1)}</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:14px;margin-bottom:2px;">
+                <span style="color:var(--muted);">GDP per capita</span><strong>${gdpStr}</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:14px;">
+                <span style="color:var(--muted);">Gini</span><strong>${giniStr}</strong>
+              </div>`;
+            const canvas = document.getElementById('chart');
+            const x = tooltip.caretX, y = tooltip.caretY;
+            tip.style.opacity = 1;
+            tip.style.left = Math.min(x+12, canvas.offsetWidth-215)+'px';
+            tip.style.top = Math.max(y-10, 0)+'px';
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: ax.type,
+          title: { display:true, text:ax.label, color:'#9a9589', font:{size:11, family:"'DM Mono', monospace"} },
+          min:ax.min, max:ax.max,
+          grid: { color:'rgba(0,0,0,0.05)' },
+          ticks: { color:'#9a9589', font:{size:10, family:"'DM Mono', monospace"}, callback:ax.ticks }
+        },
+        y: {
+          title: { display:true, text:'RSF press freedom score (0–100)', color:'#9a9589', font:{size:11, family:"'DM Mono', monospace"} },
+          min:10, max:100,
+          grid: { color:'rgba(0,0,0,0.05)' },
+          ticks: { color:'#9a9589', font:{size:10, family:"'DM Mono', monospace"} }
+        }
+      }
+    },
+    plugins: [{
+      id: 'outlierLabels',
+      afterDraw(c) {
+        const ctx2 = c.ctx;
+        ctx2.save();
+        ctx2.font = "11px 'DM Mono', monospace";
+        ctx2.fillStyle = '#5a5650';
+        c.data.datasets.forEach((ds, di) => {
+          const meta = c.getDatasetMeta(di);
+          ds.data.forEach((pt, i) => {
+            if (!LABEL_ALWAYS.includes(pt.country)) return;
+            const el = meta.data[i];
+            if (!el) return;
+            const {x,y} = el.getProps(['x','y']);
+            ctx2.fillText(pt.country, x+7, y+4);
+          });
+        });
+        ctx2.restore();
+      }
+    }]
+  });
+}
+
+function switchMode(m) {
+  mode = m;
+  document.getElementById('btn-gdp').classList.toggle('active', m==='gdp');
+  document.getElementById('btn-gini').classList.toggle('active', m==='gini');
+  buildChart();
+}
+
+function redraw() { buildChart(); }
+buildChart();
+</script>
+</body>
+</html>

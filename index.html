@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30 Day Chart Challenge 2026 — Chris Kucewicz</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f2eb;
+    --accent: #c94a2a;
+    --muted: #9a9589;
+    --card-bg: #ffffff;
+    --border: #e0dbd0;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  header {
+    padding: 4rem 5vw 3rem;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2rem;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+  }
+
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .header-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    line-height: 1.8;
+  }
+
+  .progress-block { text-align: right; }
+
+  .progress-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  .progress-bar-wrap {
+    width: 100px;
+    height: 2px;
+    background: var(--border);
+    margin-top: 0.75rem;
+    margin-left: auto;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+  }
+
+  .cat-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 5vw;
+    border-bottom: 1px solid var(--border);
+    background: var(--card-bg);
+  }
+
+  .cat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .cat-pip {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  main { padding: 3rem 5vw 5rem; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+
+  .section-days {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+
+  .day-card {
+    background: var(--card-bg);
+    padding: 1.1rem 1.1rem 1rem;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.12s;
+  }
+
+  a.day-card:hover { background: #fffdf8; }
+
+  a.day-card::after {
+    content: '→';
+    position: absolute;
+    bottom: 0.9rem;
+    right: 1rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.12s, transform 0.12s;
+  }
+
+  a.day-card:hover::after { opacity: 1; transform: translateX(3px); }
+
+  .day-card.upcoming { background: var(--paper); }
+
+  .day-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  a.day-card .day-num { color: var(--accent); }
+
+  .day-prompt {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .day-card.upcoming .day-prompt { color: var(--muted); }
+
+  .day-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+
+  .day-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-top: 0.6rem;
+    width: fit-content;
+  }
+
+  .tag-done  { background: #edf5e8; color: #357a47; }
+  .tag-theme { background: #fdf0e8; color: #c94a2a; }
+  .tag-data  { background: #e8f0fd; color: #2a5bc9; }
+
+  .day-card-border { border-top: 2px solid transparent; }
+  a.day-card { border-top: 2px solid var(--accent); }
+  .day-card.upcoming { border-top: 2px solid transparent; }
+
+  footer {
+    padding: 1.5rem 5vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    header { grid-template-columns: 1fr; }
+    .progress-block { text-align: left; }
+    .progress-bar-wrap { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <p class="eyebrow">#30DayChartChallenge · April 2026</p>
+    <h1>30 Days<br>of <em>Charts</em></h1>
+    <p class="header-meta">
+      Chris Kucewicz · ckucewicz<br>
+      One chart per day through April
+    </p>
+  </div>
+  <div class="progress-block">
+    <div class="progress-num" id="done-count">1</div>
+    <div class="progress-label">of 30 complete</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:3.3%"></div>
+    </div>
+  </div>
+</header>
+
+<div class="cat-legend">
+  <div class="cat-item"><span class="cat-pip" style="background:#7c6fc4"></span>Comparisons · days 1–6</div>
+  <div class="cat-item"><span class="cat-pip" style="background:#4fa37a"></span>Distributions · days 7–12</div>
+  <div class="cat-item"><span class="cat-pip" style="background:#c97a2a"></span>Relationships · days 13–18</div>
+  <div class="cat-item"><span class="cat-pip" style="background:#2a7bc9"></span>Timeseries · days 19–24</div>
+  <div class="cat-item"><span class="cat-pip" style="background:#c94a6e"></span>Uncertainties · days 25–30</div>
+</div>
+
+<main id="main"></main>
+
+<footer>
+  <p>Built for <a href="https://github.com/30DayChartChallenge/Edition2026" target="_blank">#30DayChartChallenge 2026</a></p>
+  <p><a href="https://github.com/ckucewicz/Chart_challenge_2026" target="_blank">View source on GitHub</a></p>
+</footer>
+
+<script>
+const SECTIONS = [
+  { title: 'Comparisons',   slug: 'comp', color: '#7c6fc4', range: 'Days 1–6' },
+  { title: 'Distributions', slug: 'dist', color: '#4fa37a', range: 'Days 7–12' },
+  { title: 'Relationships', slug: 'rel',  color: '#c97a2a', range: 'Days 13–18' },
+  { title: 'Timeseries',    slug: 'time', color: '#2a7bc9', range: 'Days 19–24' },
+  { title: 'Uncertainties', slug: 'unc',  color: '#c94a6e', range: 'Days 25–30' },
+];
+
+const DAYS = [
+  { day:1,  prompt:'Part-to-whole',   cat:'comp' },
+  { day:2,  prompt:'Pictogram',       cat:'comp' },
+  { day:3,  prompt:'Mosaic',          cat:'comp' },
+  { day:4,  prompt:'Slope',           cat:'comp' },
+  { day:5,  prompt:'Experimental',    cat:'comp' },
+  { day:6,  prompt:'Data: RSF',       cat:'comp', done:true, link:'day06/', title:'Press freedom vs. wealth & inequality', tag:'done' },
+  { day:7,  prompt:'Multiscale',      cat:'dist' },
+  { day:8,  prompt:'Circular',        cat:'dist' },
+  { day:9,  prompt:'Wealth',          cat:'dist' },
+  { day:10, prompt:'Pop culture',     cat:'dist' },
+  { day:11, prompt:'Physical',        cat:'dist' },
+  { day:12, prompt:'Data: Reporters Without Borders', cat:'dist', tag:'data' },
+  { day:13, prompt:'Ecosystems',      cat:'rel' },
+  { day:14, prompt:'Trade',           cat:'rel' },
+  { day:15, prompt:'Correlation',     cat:'rel' },
+  { day:16, prompt:'Causation',       cat:'rel' },
+  { day:17, prompt:'Remake',          cat:'rel' },
+  { day:18, prompt:'Theme: South China Morning Post', cat:'rel', tag:'theme' },
+  { day:19, prompt:'Evolution',       cat:'time' },
+  { day:20, prompt:'Global change',   cat:'time' },
+  { day:21, prompt:'Historical',      cat:'time' },
+  { day:22, prompt:'New tool',        cat:'time' },
+  { day:23, prompt:'Seasons',         cat:'time' },
+  { day:24, prompt:'Data: UNICEF',    cat:'time', tag:'data' },
+  { day:25, prompt:'Space',           cat:'unc' },
+  { day:26, prompt:'Trend',           cat:'unc' },
+  { day:27, prompt:'Animation',       cat:'unc' },
+  { day:28, prompt:'Modeling',        cat:'unc' },
+  { day:29, prompt:'Monochrome',      cat:'unc' },
+  { day:30, prompt:'Theme day',       cat:'unc',  tag:'theme' },
+];
+
+const main = document.getElementById('main');
+let doneCount = 0;
+
+SECTIONS.forEach(sec => {
+  const days = DAYS.filter(d => d.cat === sec.slug);
+
+  const sh = document.createElement('div');
+  sh.className = 'section-header';
+  sh.innerHTML = `
+    <span class="section-title" style="border-bottom:2px solid ${sec.color};padding-bottom:2px;">${sec.title}</span>
+    <span class="section-days">${sec.range}</span>
+  `;
+  main.appendChild(sh);
+
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+
+  days.forEach(d => {
+    if (d.done) doneCount++;
+    const n = String(d.day).padStart(2, '0');
+    const el = document.createElement(d.done ? 'a' : 'div');
+    el.className = 'day-card ' + (d.done ? '' : 'upcoming');
+    if (d.done && d.link) el.href = d.link;
+
+    let tagHtml = '';
+    if (d.tag === 'done')  tagHtml = `<span class="day-tag tag-done">Complete</span>`;
+    if (d.tag === 'theme') tagHtml = `<span class="day-tag tag-theme">Theme day</span>`;
+    if (d.tag === 'data')  tagHtml = `<span class="day-tag tag-data">Data day</span>`;
+
+    el.innerHTML = `
+      <div class="day-num">Day ${n}</div>
+      <div class="day-prompt">${d.prompt}</div>
+      ${d.title ? `<div class="day-subtitle">${d.title}</div>` : ''}
+      ${tagHtml}
+    `;
+    grid.appendChild(el);
+  });
+
+  main.appendChild(grid);
+});
+
+document.getElementById('done-count').textContent = doneCount;
+document.getElementById('progress-fill').style.width = (doneCount / 30 * 100).toFixed(1) + '%';
+</script>
+</body>
+</html>
