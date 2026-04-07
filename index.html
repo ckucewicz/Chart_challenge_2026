@@ -176,6 +176,32 @@
 
   a.day-card:hover { background: #fffdf8; }
 
+  .day-card.has-preview {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .day-card.has-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(245, 242, 235, 0.68);
+    z-index: 0;
+  }
+
+  a.day-card.has-preview:hover::before {
+    background: rgba(245, 242, 235, 0.55);
+  }
+
+  .day-card.has-preview .day-num,
+  .day-card.has-preview .day-prompt,
+  .day-card.has-preview .day-subtitle,
+  .day-card.has-preview .day-tag {
+    position: relative;
+    z-index: 1;
+  }
+
   a.day-card::after {
     content: '→';
     position: absolute;
@@ -308,7 +334,7 @@ const DAYS = [
   { day:3,  prompt:'Mosaic',                     cat:'comp' },
   { day:4,  prompt:'Slope',                      cat:'comp' },
   { day:5,  prompt:'Experimental',               cat:'comp' },
-  { day:6,  prompt:'Data: Reporters Without Borders', cat:'comp', done:true, link:'day06/', title:'Press freedom vs. wealth & inequality', tag:'done' },
+  { day:6,  prompt:'Data: Reporters Without Borders', cat:'comp', done:true, link:'day06/', title:'Press freedom vs. wealth & inequality', tag:'done', preview:'day06/preview.jpg' },
   { day:7,  prompt:'Multiscale',                 cat:'dist' },
   { day:8,  prompt:'Circular',                   cat:'dist' },
   { day:9,  prompt:'Wealth',                     cat:'dist' },
