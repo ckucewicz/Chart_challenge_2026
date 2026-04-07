@@ -514,7 +514,7 @@ const tip = document.getElementById('tip');
 function getWnbaPos(i) {
   const et=easeInOut(Math.min(1,Math.max(0,zoomT)));
   const nC=wnbaNodes_coll[i], nE=wnbaNodes_exp[i];
-  return {x:lerp(nC.x,nE.x,et), y:lerp(nC.y,nE.y,et), r:lerp(nC.r,nE.r,et), sal:nC.sal, isTop:nC.isTop};
+  return {x:lerp(nC.x,nE.x,et), y:lerp(nC.y,nE.y,et), r:lerp(nC.r,nE.r,et), sal:nC.sal, isTop:nC.isTop, i:nC.i};
 }
 
 canvas.addEventListener('mousemove', e => {
