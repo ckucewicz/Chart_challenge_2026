@@ -142,8 +142,28 @@
   /* ── Card grid ── */
   main { padding: 2rem 5vw 5rem; }
 
-  .panel { display: none; }
-  .panel.active { display: block; }
+  .panel { display: block; margin-bottom: 3rem; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 2rem 0 1rem;
+    border-bottom: 2px solid var(--section-color, var(--border));
+    margin-bottom: 1px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+  .section-range {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
 
   .grid {
     display: grid;
@@ -303,10 +323,10 @@
     </p>
   </div>
   <div class="progress-block">
-    <div class="progress-num" id="done-count">1</div>
+    <div class="progress-num" id="done-count">2</div>
     <div class="progress-label">of 30 complete</div>
     <div class="progress-bar-wrap">
-      <div class="progress-bar-fill" id="progress-fill" style="width:3.3%"></div>
+      <div class="progress-bar-fill" id="progress-fill" style="width:6.7%"></div>
     </div>
   </div>
 </header>
@@ -329,89 +349,139 @@ const SECTIONS = [
 ];
 
 const DAYS = [
-  { day:1,  prompt:'Part-to-whole',              cat:'comp' },
-  { day:2,  prompt:'Pictogram',                  cat:'comp' },
-  { day:3,  prompt:'Mosaic',                     cat:'comp' },
-  { day:4,  prompt:'Slope',                      cat:'comp' },
-  { day:5,  prompt:'Experimental',               cat:'comp' },
-  { day:6,  prompt:'Data: Reporters Without Borders', cat:'comp', done:true, link:'day06/', title:'Press freedom vs. wealth & inequality', tag:'done', preview:'day06/preview.jpg' },
-  { day:7,  prompt:'Multiscale',                 cat:'dist' },
-  { day:8,  prompt:'Circular',                   cat:'dist' },
-  { day:9,  prompt:'Wealth',                     cat:'dist' },
-  { day:10, prompt:'Pop culture',                cat:'dist' },
-  { day:11, prompt:'Physical',                   cat:'dist' },
-  { day:12, prompt:'Theme: FlowingData',         cat:'dist', tag:'theme' },
-  { day:13, prompt:'Ecosystems',                 cat:'rel' },
-  { day:14, prompt:'Trade',                      cat:'rel' },
-  { day:15, prompt:'Correlation',                cat:'rel' },
-  { day:16, prompt:'Causation',                  cat:'rel' },
-  { day:17, prompt:'Remake',                     cat:'rel' },
-  { day:18, prompt:'Theme: South China Morning Post', cat:'rel', tag:'theme' },
-  { day:19, prompt:'Evolution',                  cat:'time' },
-  { day:20, prompt:'Global change',              cat:'time' },
-  { day:21, prompt:'Historical',                 cat:'time' },
-  { day:22, prompt:'New tool',                   cat:'time' },
-  { day:23, prompt:'Seasons',                    cat:'time' },
-  { day:24, prompt:'Data: UNICEF',               cat:'time', tag:'data' },
-  { day:25, prompt:'Space',                      cat:'unc' },
-  { day:26, prompt:'Trend',                      cat:'unc' },
-  { day:27, prompt:'Animation',                  cat:'unc' },
-  { day:28, prompt:'Modeling',                   cat:'unc' },
-  { day:29, prompt:'Monochrome',                 cat:'unc' },
-  { day:30, prompt:'Theme day',                  cat:'unc', tag:'theme' },
+  { day:1,  prompt:'Part-to-whole',                   cat:'comp' },
+  { day:2,  prompt:'Pictogram',                        cat:'comp' },
+  { day:3,  prompt:'Mosaic',                           cat:'comp' },
+  { day:4,  prompt:'Slope',                            cat:'comp' },
+  { day:5,  prompt:'Experimental',                     cat:'comp' },
+  { day:6,  prompt:'Data: Reporters Without Borders',  cat:'comp', tag:'data' },
+  { day:7,  prompt:'Multiscale',                       cat:'dist' },
+  { day:8,  prompt:'Circular',                         cat:'dist' },
+  { day:9,  prompt:'Wealth',                           cat:'dist' },
+  { day:10, prompt:'Pop culture',                      cat:'dist' },
+  { day:11, prompt:'Physical',                         cat:'dist' },
+  { day:12, prompt:'Theme: FlowingData',               cat:'dist', tag:'theme' },
+  { day:13, prompt:'Ecosystems',                       cat:'rel' },
+  { day:14, prompt:'Trade',                            cat:'rel' },
+  { day:15, prompt:'Correlation',                      cat:'rel' },
+  { day:16, prompt:'Causation',                        cat:'rel' },
+  { day:17, prompt:'Remake',                           cat:'rel' },
+  { day:18, prompt:'Theme: South China Morning Post',  cat:'rel', tag:'theme' },
+  { day:19, prompt:'Evolution',                        cat:'time' },
+  { day:20, prompt:'Global change',                    cat:'time' },
+  { day:21, prompt:'Historical',                       cat:'time' },
+  { day:22, prompt:'New tool',                         cat:'time' },
+  { day:23, prompt:'Seasons',                          cat:'time' },
+  { day:24, prompt:'Data: UNICEF',                     cat:'time', tag:'data' },
+  { day:25, prompt:'Space',                            cat:'unc' },
+  { day:26, prompt:'Trend',                            cat:'unc' },
+  { day:27, prompt:'Animation',                        cat:'unc' },
+  { day:28, prompt:'Modeling',                         cat:'unc' },
+  { day:29, prompt:'Monochrome',                       cat:'unc' },
+  { day:30, prompt:'Theme day',                        cat:'unc', tag:'theme' },
 ];
 
 const tabsEl = document.getElementById('tabs');
 const mainEl = document.getElementById('main');
-let doneCount = 0;
-let activeSlug = 'comp';
 
+// Build card element — starts as upcoming, upgraded to done if fetch succeeds
 function buildCard(d, color) {
-  if (d.done) doneCount++;
-  const n = String(d.day).padStart(2, '0');
-  const el = document.createElement(d.done ? 'a' : 'div');
-  el.className = 'day-card ' + (d.done ? '' : 'upcoming');
-  if (d.done && d.link) {
-    // encode each path segment to handle spaces safely
-    el.href = d.link.split('/').map(s => encodeURIComponent(s)).join('/') + '/';
-  }
-  if (d.done) el.style.setProperty('--active-color', color);
+  const n   = String(d.day).padStart(2, '0');
+  const key = 'day' + n;
+  const wrapper = document.createElement('div');
+  wrapper.id = 'card-' + key;
 
   let tagHtml = '';
-  if (d.tag === 'done')  tagHtml = `<span class="day-tag tag-done">Complete</span>`;
   if (d.tag === 'theme') tagHtml = `<span class="day-tag tag-theme">Theme day</span>`;
   if (d.tag === 'data')  tagHtml = `<span class="day-tag tag-data">Data day</span>`;
 
-  el.innerHTML = `
-    <div class="day-num">Day ${n}</div>
-    <div class="day-prompt">${d.prompt}</div>
-    ${d.title ? `<div class="day-subtitle">${d.title}</div>` : ''}
-    ${tagHtml}
-  `;
-  return el;
+  function renderUpcoming() {
+    wrapper.innerHTML = '';
+    const el = document.createElement('div');
+    el.className = 'day-card upcoming';
+    el.innerHTML = `
+      <div class="day-num">Day ${n}</div>
+      <div class="day-prompt">${d.prompt}</div>
+      ${tagHtml}
+    `;
+    wrapper.appendChild(el);
+  }
+
+  function renderDone(title, preview) {
+    wrapper.innerHTML = '';
+    const el = document.createElement('a');
+    el.className = 'day-card' + (preview ? ' has-preview' : '');
+    el.href = key + '/';
+    el.style.setProperty('--active-color', color);
+    if (preview) el.style.backgroundImage = "url('" + preview + "')";
+    el.innerHTML = `
+      <div class="day-num">Day ${n}</div>
+      <div class="day-prompt">${d.prompt}</div>
+      ${title ? '<div class="day-subtitle">' + title + '</div>' : ''}
+      <span class="day-tag tag-done">Complete</span>
+      ${tagHtml}
+    `;
+    wrapper.appendChild(el);
+    updateProgress();
+  }
+
+  renderUpcoming();
+
+  // Probe for the day folder — if index.html exists, mark done
+  fetch(key + '/index.html')
+    .then(res => {
+      if (!res.ok) return;
+      return res.text().then(text => {
+        // Extract <title> and strip challenge suffix
+        const tm = text.match(/<title[^>]*>([^<]+)<\/title>/i);
+        let title = tm ? tm[1].replace(/\s*[·—–-]\s*#?30Day.*$/i, '').trim() : '';
+        // Look for a preview image declaration in the HTML
+        const pm = text.match(/preview['":\s]+['"]([^'"]+\.(?:jpg|png|webp))['"]/i);
+        const preview = pm ? key + '/' + pm[1] : null;
+        renderDone(title, preview);
+      });
+    })
+    .catch(() => {});
+
+  return wrapper;
+}
+
+function updateProgress() {
+  const done = document.querySelectorAll('a.day-card').length;
+  document.getElementById('done-count').textContent = done;
+  document.getElementById('progress-fill').style.width = (done / 30 * 100).toFixed(1) + '%';
 }
 
 // Build tabs + panels
 SECTIONS.forEach(sec => {
   const days = DAYS.filter(d => d.cat === sec.slug);
 
-  // Tab button
   const tab = document.createElement('button');
-  tab.className = 'tab' + (sec.slug === activeSlug ? ' active' : '');
+  tab.className = 'tab';
   tab.dataset.slug = sec.slug;
-  tab.style.borderBottomColor = sec.slug === activeSlug ? sec.color : 'transparent';
-  tab.innerHTML = `
-    <span class="tab-pip" style="background:${sec.color}"></span>
-    ${sec.title}
-    <span class="tab-range">${sec.range}</span>
-  `;
-  tab.addEventListener('click', () => switchTab(sec.slug));
+  tab.style.borderBottomColor = 'transparent';
+  tab.innerHTML =
+    '<span class="tab-pip" style="background:' + sec.color + '"></span>' +
+    sec.title +
+    '<span class="tab-range">' + sec.range + '</span>';
+  tab.addEventListener('click', () => {
+    const target = document.getElementById('section-' + sec.slug);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
   tabsEl.appendChild(tab);
 
-  // Panel
   const panel = document.createElement('div');
-  panel.className = 'panel' + (sec.slug === activeSlug ? ' active' : '');
+  panel.className = 'panel';
+  panel.id = 'section-' + sec.slug;
   panel.dataset.slug = sec.slug;
+
+  const header = document.createElement('div');
+  header.className = 'section-header';
+  header.style.setProperty('--section-color', sec.color);
+  header.innerHTML =
+    '<span class="section-title" style="color:' + sec.color + '">' + sec.title + '</span>' +
+    '<span class="section-range">' + sec.range + '</span>';
+  panel.appendChild(header);
 
   const grid = document.createElement('div');
   grid.className = 'grid';
@@ -420,21 +490,23 @@ SECTIONS.forEach(sec => {
   mainEl.appendChild(panel);
 });
 
-function switchTab(slug) {
-  activeSlug = slug;
-  document.querySelectorAll('.tab').forEach(t => {
-    const sec = SECTIONS.find(s => s.slug === t.dataset.slug);
-    const isActive = t.dataset.slug === slug;
-    t.classList.toggle('active', isActive);
-    t.style.borderBottomColor = isActive ? sec.color : 'transparent';
+// Highlight active tab on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const slug = entry.target.dataset.slug;
+      document.querySelectorAll('.tab').forEach(t => {
+        const sec = SECTIONS.find(s => s.slug === t.dataset.slug);
+        const active = t.dataset.slug === slug;
+        t.classList.toggle('active', active);
+        t.style.borderBottomColor = active ? sec.color : 'transparent';
+      });
+    }
   });
-  document.querySelectorAll('.panel').forEach(p => {
-    p.classList.toggle('active', p.dataset.slug === slug);
-  });
-}
+}, { rootMargin: '-20% 0px -70% 0px' });
+document.querySelectorAll('.panel').forEach(p => observer.observe(p));
 
-document.getElementById('done-count').textContent = doneCount;
-document.getElementById('progress-fill').style.width = (doneCount / 30 * 100).toFixed(1) + '%';
+updateProgress();
 </script>
 </body>
 </html>
