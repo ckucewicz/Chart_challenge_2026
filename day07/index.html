@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 07 — The Pay Gap</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  :root {
+    --ink:#0f0e0c; --paper:#f5f2eb;
+    --border:#e0dbd0; --muted:#9a9589; --accent:#c94a2a;
+    --nba:#1D9E75; --wnba:#c94a6e;
+  }
+  body { background:var(--paper); color:var(--ink); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+
+  .page-header { padding:2.5rem 5vw 2rem; max-width:680px; }
+  .eyebrow { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem; }
+  h1 { font-family:'DM Serif Display',serif; font-size:clamp(1.8rem,4vw,2.8rem); line-height:1.08; letter-spacing:-0.02em; margin-bottom:0.6rem; }
+  h1 em { font-style:italic; color:var(--wnba); }
+  .deck { font-size:0.9rem; color:#5a5650; line-height:1.65; }
+
+  .sticky-header {
+    position:sticky; top:0; z-index:100;
+    background:rgba(245,242,235,0.96); backdrop-filter:blur(4px);
+    border-bottom:1px solid var(--border);
+    padding:0.65rem 5vw;
+    display:flex; align-items:center; gap:1rem;
+  }
+  .sticky-left { min-width:150px; }
+  .sticky-sublabel { font-family:'DM Mono',monospace; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:1px; }
+  .sticky-sal { font-family:'DM Serif Display',serif; font-size:1.2rem; transition:color 0.3s; color:var(--nba); }
+  .prog-wrap { flex:1; height:2px; background:var(--border); border-radius:2px; overflow:hidden; }
+  .prog-fill { height:100%; width:0%; border-radius:2px; background:var(--nba); transition:width 0.05s, background 0.4s; }
+  .scroll-hint { font-family:'DM Mono',monospace; font-size:0.62rem; color:var(--muted); white-space:nowrap; }
+  .bounce { animation:bnc 1.1s ease-in-out infinite; display:inline-block; }
+  @keyframes bnc { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+
+  .chart-wrap { padding:0 5vw; }
+  .legend { display:flex; gap:16px; margin-bottom:1rem; font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); flex-wrap:wrap; align-items:center; }
+  .leg { display:flex; align-items:center; gap:5px; }
+  .leg-dot { width:9px; height:9px; border-radius:50%; }
+
+  .tip {
+    position:fixed; background:#0f0e0c; color:#f5f2eb;
+    border-radius:4px; padding:7px 11px;
+    font-family:'DM Mono',monospace; font-size:11px;
+    pointer-events:none; opacity:0; transition:opacity 0.12s;
+    z-index:200; white-space:nowrap; line-height:1.6;
+  }
+
+  .stats-grid { padding:2rem 5vw 3rem; border-top:1px solid var(--border); display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:1.25rem; }
+  .stat-val { font-family:'DM Serif Display',serif; font-size:1.5rem; line-height:1.1; margin-bottom:2px; }
+  .stat-desc { font-size:0.7rem; color:var(--muted); font-family:'DM Mono',monospace; letter-spacing:0.04em; }
+  .source { padding:0 5vw 2rem; font-family:'DM Mono',monospace; font-size:0.58rem; color:var(--muted); letter-spacing:0.04em; line-height:1.8; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="eyebrow">Day 07 · April 2026 · Distributions · Multiscale</p>
+  <h1>The NBA is up here.<br>The WNBA is <em>way down there.</em></h1>
+  <p class="deck">Every dot is one player. Scroll down to find the WNBA. Drawn to scale — every pixel is the same dollar amount.</p>
+</div>
+
+<div class="sticky-header">
+  <div class="sticky-left">
+    <div class="sticky-sublabel">current salary level</div>
+    <div class="sticky-sal" id="sticky-sal">$59.6M</div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+  <div class="scroll-hint">scroll down <span class="bounce">↓</span></div>
+</div>
+
+<div class="chart-wrap">
+  <div class="legend">
+    <span class="leg"><span class="leg-dot" style="background:var(--nba)"></span>NBA · 487 players</span>
+    <span class="leg"><span class="leg-dot" style="background:var(--wnba)"></span>WNBA · 180 players</span>
+    <span class="leg">
+      <svg width="18" height="18" style="flex-shrink:0"><circle cx="9" cy="9" r="8" fill="#e0dbd0" stroke="#9a9589" stroke-width="1.5"/><text x="9" y="13" text-anchor="middle" font-size="9" fill="#9a9589" font-family="DM Mono,monospace">?</text></svg>
+      top 5 earner (placeholder)
+    </span>
+  </div>
+  <div id="canvas-wrap"></div>
+</div>
+
+<div class="stats-grid">
+  <div><div class="stat-val" style="color:var(--nba)">$5.7M</div><div class="stat-desc">NBA median</div></div>
+  <div><div class="stat-val" style="color:var(--wnba)">$66K</div><div class="stat-desc">WNBA median</div></div>
+  <div><div class="stat-val">86×</div><div class="stat-desc">NBA ÷ WNBA median</div></div>
+  <div><div class="stat-val" style="color:var(--wnba)">$214K</div><div class="stat-desc">WNBA max · Collier</div></div>
+  <div><div class="stat-val" style="color:var(--nba)">$59.6M</div><div class="stat-desc">NBA max · Curry</div></div>
+  <div><div class="stat-val">$1.1M</div><div class="stat-desc">NBA minimum</div></div>
+</div>
+<div class="source">NBA: Basketball Reference (2025–26) · WNBA: Her Hoop Stats (2025)</div>
+<div class="tip" id="tip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+const NBA_ALL  = [59606817, 55224526, 55224526, 54708609, 54126450, 54126450, 54126450, 54126450, 53142264, 53142264, 53142264, 52627153, 51666090, 50000000, 47499660, 46394100, 46394100, 46394100, 46394100, 46394100, 46394100, 45999660, 45550512, 45550512, 45550512, 42336000, 39568966, 39446090, 39446090, 39446090, 39182693, 38661750, 38661750, 38333050, 38333050, 38095238, 37958760, 37958760, 37096620, 37096620, 36725670, 36620603, 36566002, 35000000, 35000000, 35000000, 34944001, 33944954, 33654814, 33584499, 33296296, 32500000, 32400000, 32000001, 31848215, 31000000, 30864198, 30801103, 30731707, 30666666, 30000000, 28500000, 28223215, 28100000, 27705357, 27678571, 27000000, 26643031, 26634146, 26580000, 25892857, 25352272, 25318251, 25000000, 25000000, 25000000, 25000000, 24900000, 24737010, 24570000, 24393104, 23799569, 23303571, 22841455, 22410605, 21621500, 21551724, 21481481, 21124110, 21057065, 20482758, 20000000, 19920855, 19500000, 19472240, 19375000, 19000000, 18975000, 18893980, 18797619, 18485916, 18259259, 18222222, 18102000, 18102000, 18080496, 18000000, 17991071, 17500000, 16875000, 16834692, 16666667, 16020000, 15936452, 15500000, 15334769, 15161800, 15000000, 15000000, 15000000, 14386320, 14375000, 14152174, 14130434, 14104000, 14104000, 14000000, 13975000, 13937574, 13937574, 13825920, 13731368, 13666667, 13645500, 13445754, 13445122, 13376880, 13285713, 13197720, 12954546, 12947835, 12888889, 12700000, 12500000, 12370320, 12362338, 12350392, 11990000, 11968800, 11808240, 11600000, 11574075, 11571429, 11550000, 11500000, 11499872, 11144093, 11108880, 11000000, 11000000, 11000000, 11000000, 11000000, 10850000, 10748040, 10739683, 10603560, 10395000, 10200000, 10125000, 10107163, 10102803, 10044644, 10015680, 10000000, 10000000, 9690600, 9594044, 9560520, 9219512, 9219512, 9187573, 9069840, 9000000, 9000000, 8781000, 8775000, 8750000, 8741209, 8657280, 8482144, 8450704, 8399983, 8382150, 8333333, 8307692, 8237640, 8200000, 8177778, 8000000, 8000000, 8000000, 7970280, 7874853, 7863240, 7714286, 7707709, 7680524, 7600000, 7520040, 7518518, 7275600, 7232143, 7178400, 7163000, 7000000, 6889200, 6837779, 6700000, 6670882, 6665520, 6623456, 6580997, 6576120, 6483144, 6443984, 6383525, 6332520, 6276531, 6250000, 6250000, 6165000, 6127080, 6118644, 6045000, 6016080, 6000000, 6000000, 5996274, 5820240, 5742480, 5715120, 5685000, 5685000, 5675766, 5643732, 5601600, 5529720, 5500000, 5480297, 5455560, 5429520, 5426400, 5426400, 5399118, 5335894, 5253360, 5182920, 5157960, 5134000, 5000000, 5000000, 5000000, 4990560, 4962033, 4923720, 4921797, 4900320, 4878938, 4741320, 4677600, 4655040, 4500000, 4445417, 4443360, 4422360, 4356476, 4333333, 4278960, 4221360, 4201080, 4150000, 4010160, 4000000, 4000000, 3991320, 3861600, 3811560, 3809524, 3809520, 3697105, 3687960, 3675000, 3658800, 3638160, 3634153, 3539760, 3512520, 3492480, 3449323, 3415000, 3398640, 3372240, 3353040, 3303774, 3262560, 3237480, 3218760, 3204816, 3132000, 3108120, 3107143, 3090480, 3080921, 3022108, 3000000, 3000000, 3000000, 2983320, 2966760, 2886720, 2884560, 2847600, 2801280, 2790720, 2783880, 2763960, 2753280, 2743800, 2710680, 2693760, 2674200, 2674080, 2657760, 2654880, 2638200, 2619000, 2546675, 2537989, 2461463, 2461463, 2461463, 2461463, 2378870, 2378870, 2353647, 2349578, 2349578, 2349578, 2349578, 2349578, 2349578, 2301587, 2301587, 2301587, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2296274, 2270735, 2270735, 2270735, 2270735, 2269880, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2221677, 2208856, 2191897, 2191897, 2191897, 2111516, 2048494, 2048494, 2048494, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1955377, 1755198, 1527805, 1372870, 1272870, 1272870, 1272870, 1272870, 1272870, 1272870, 1272870, 1272870, 1272870, 1272870, 1272870, 1131970, 1002360, 857804, 724598, 724598, 718150, 712637, 712637, 706898, 699440, 686243, 666667, 623967, 490128, 475497, 464050, 458711, 429325, 424672, 395029, 321184, 268032, 263940, 263940, 263940, 263940, 263940, 164060, 131970, 131970, 131970, 87784, 73153, 73153, 73153, 73153, 73153, 73153, 70732];
+const WNBA_ALL = [214284, 208060, 201400, 200000, 185000, 185000, 145500, 125000, 125000, 125000, 125000, 118450, 112000, 100013, 100000, 100000, 100000, 96820, 95835, 90000, 90000, 90000, 88261, 85000, 85000, 85000, 84543, 83371, 83371, 83371, 80823, 80823, 80672, 79999, 79999, 78831, 78831, 78831, 78831, 78831, 78831, 78831, 78831, 78831, 78831, 78831, 78831, 78066, 78066, 78066, 78066, 76630, 75694, 75643, 75643, 75643, 74909, 74909, 74909, 73258, 72455, 72455, 72455, 72455, 72455, 72283, 69267, 69267, 69267, 69267, 69267, 69267, 69267, 69267, 68595, 68595, 68595, 66710, 66710, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 66079, 63721, 54622, 54418, 53658, 53307, 52333, 49420, 48865, 42757, 42397, 40789, 37769, 36178, 36094, 31096, 31096, 27940, 27764, 25543, 25173, 23322, 21198, 21101, 20294, 18880, 17223, 16659, 16659, 16103, 15548, 14437, 13911, 13911, 13911, 13911, 13882, 12772, 12216, 11661, 11661, 11661, 11661, 11106, 11106, 10550, 9995, 9440, 9274, 7949, 7949, 7774, 7774, 6956, 6802, 6459, 5553, 5136, 4998, 4998, 4442, 4442, 3975, 3975, 3887, 3887, 3887, 3887, 3887, 3887, 3887, 3887, 3887, 3887, 2915, 2915, 1987, 1666, 1250];
+
+const TOP_PLAYERS = {
+  NBA: [
+    { name:"Stephen Curry",         salary:59606817 },
+    { name:"Joel Embiid",           salary:55224526 },
+    { name:"Nikola Jokić",          salary:55224526 },
+    { name:"Kevin Durant",          salary:54708609 },
+    { name:"Giannis Antetokounmpo", salary:54126450 },
+  ],
+  WNBA: [
+    { name:"Napheesa Collier",     salary:214284 },
+    { name:"Sabrina Ionescu",      salary:208060 },
+    { name:"Teaira McCowan",       salary:201400 },
+    { name:"Tiffany Hayes",        salary:200000 },
+    { name:"Courtney Vandersloot", salary:185000 },
+  ]
+};
+
+const SALARY_MAX = d3.max(NBA_ALL) * 1.06;
+const CANVAS_H   = 6800;
+const M_TOP      = 70;
+const M_BOT      = 120;
+const PLOT_H     = CANVAS_H - M_TOP - M_BOT;
+const Y_AXIS_W   = 64;
+const DOT_R      = 4;
+const PHOTO_R    = 16;
+
+const wrap = document.getElementById('canvas-wrap');
+const CW   = Math.min(860, wrap.offsetWidth || window.innerWidth - 80);
+const canvas = document.createElement('canvas');
+canvas.width  = CW;
+canvas.height = CANVAS_H;
+canvas.style.cssText = 'width:100%;display:block;';
+wrap.appendChild(canvas);
+const ctx = canvas.getContext('2d');
+
+function salToY(sal) {
+  return M_TOP + PLOT_H * (1 - Math.min(sal, SALARY_MAX) / SALARY_MAX);
+}
+function fmtSal(v) {
+  if (v >= 1e6) return '$' + d3.format('.2f')(v/1e6) + 'M';
+  if (v >= 1e3) return '$' + Math.round(v/1e3) + 'K';
+  return '$' + Math.round(v);
+}
+
+// ── True beeswarm algorithm ─────────────────────────────────────
+// For each dot: fix y = salToY(salary), then find x by binary search
+// outward from center until no collision with already-placed dots.
+function beeswarm(salaries, centerX, topSalaries, dotR, photoR) {
+  // Sort descending so highest salary placed first
+  const sorted = [...salaries].sort((a,b) => b - a);
+  const placed = [];  // {x, y, r}
+
+  for (const sal of sorted) {
+    const isTop = topSalaries.has(sal);
+    const r = isTop ? photoR : dotR;
+    const y = salToY(sal);
+
+    // Try offsets outward from center: 0, ±step, ±2*step, ...
+    const step = r * 2 + 1.5;
+    let placed_x = centerX;
+    let found = false;
+
+    for (let offset = 0; offset <= 300; offset += step) {
+      for (const sign of (offset === 0 ? [0] : [1, -1])) {
+        const tx = centerX + sign * offset;
+        const collides = placed.some(p => {
+          const minD = r + p.r + 1;
+          return Math.abs(tx - p.x) < minD && Math.abs(y - p.y) < minD;
+        });
+        if (!collides) {
+          placed_x = tx;
+          found = true;
+          break;
+        }
+      }
+      if (found) break;
+    }
+
+    placed.push({ x: placed_x, y, r, sal, isTop });
+  }
+  return placed;
+}
+
+// ── Draw helpers ────────────────────────────────────────────────
+function drawYAxis() {
+  const ticks = [55e6,50e6,45e6,40e6,35e6,30e6,25e6,20e6,15e6,10e6,5e6,2e6,1e6,500e3,250e3,200e3,100e3,50e3];
+  ctx.setLineDash([2,5]);
+  ctx.lineWidth = 0.5;
+  ticks.forEach(t => {
+    const y = salToY(t);
+    ctx.beginPath();
+    ctx.moveTo(Y_AXIS_W+2, y);
+    ctx.lineTo(CW-10, y);
+    ctx.strokeStyle = '#e0dbd0';
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#9a9589';
+    ctx.font = '9px "DM Mono",monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(fmtSal(t), Y_AXIS_W-4, y+3);
+    ctx.setLineDash([2,5]);
+  });
+  ctx.setLineDash([]);
+}
+
+function drawMedian(sal, cx, color) {
+  const y = salToY(sal);
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(cx - 70, y);
+  ctx.lineTo(cx + 70, y);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.setLineDash([4,3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = color;
+  ctx.font = 'bold 9px "DM Mono",monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('median · ' + fmtSal(sal), cx, y - 6);
+  ctx.restore();
+}
+
+function drawColLabel(text, cx, color) {
+  ctx.fillStyle = color;
+  ctx.font = 'bold 13px "DM Mono",monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(text, cx, M_TOP - 22);
+}
+
+function drawGap() {
+  const wMax = d3.max(WNBA_ALL);
+  const nMin = d3.min(NBA_ALL);
+  const midY = (salToY(wMax * 3.5) + salToY(nMin * 0.6)) / 2;
+  ctx.fillStyle = '#c8c4ba';
+  ctx.font = '10px "DM Mono",monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('↓  no WNBA player earns this much  ↓', CW/2, midY - 8);
+  ctx.fillText('keep scrolling', CW/2, midY + 10);
+}
+
+function drawPlaceholderCircle(x, y, r, color, initial) {
+  // Circle fill
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI*2);
+  ctx.fillStyle = '#e8e4dc';
+  ctx.fill();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  // Initial letter
+  ctx.fillStyle = color;
+  ctx.font = 'bold ' + Math.round(r*0.85) + 'px "DM Mono",monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(initial, x, y);
+  ctx.textBaseline = 'alphabetic';
+}
+
+// ── Main ─────────────────────────────────────────────────────────
+ctx.fillStyle = '#f5f2eb';
+ctx.fillRect(0, 0, CW, CANVAS_H);
+drawYAxis();
+drawGap();
+
+const plotW  = CW - Y_AXIS_W - 16;
+const nbaCX  = Y_AXIS_W + plotW * 0.28;
+const wnbaCX = Y_AXIS_W + plotW * 0.72;
+
+drawColLabel('NBA',  nbaCX,  '#1D9E75');
+drawColLabel('WNBA', wnbaCX, '#c94a6e');
+
+const nbaTopSals  = new Set(TOP_PLAYERS.NBA.map(p=>p.salary));
+const wnbaTopSals = new Set(TOP_PLAYERS.WNBA.map(p=>p.salary));
+
+console.log('Computing NBA beeswarm...');
+const nbaNodes  = beeswarm(NBA_ALL,  nbaCX,  nbaTopSals,  DOT_R, PHOTO_R);
+console.log('Computing WNBA beeswarm...');
+const wnbaNodes = beeswarm(WNBA_ALL, wnbaCX, wnbaTopSals, DOT_R, PHOTO_R);
+
+// Draw regular dots
+[...nbaNodes, ...wnbaNodes].forEach(n => {
+  if (n.isTop) return;
+  ctx.beginPath();
+  ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+  ctx.fillStyle = (n.x < (nbaCX + wnbaCX)/2 ? '#1D9E75' : '#c94a6e') + '99';
+  ctx.fill();
+});
+
+// Draw median lines above dots
+drawMedian(d3.median(NBA_ALL),  nbaCX,  '#1D9E75');
+drawMedian(d3.median(WNBA_ALL), wnbaCX, '#c94a6e');
+
+// Draw placeholder circles for top 5
+const allTop = [
+  ...TOP_PLAYERS.NBA.map(p=>({...p, cx:nbaCX, color:'#1D9E75', nodes:nbaNodes})),
+  ...TOP_PLAYERS.WNBA.map(p=>({...p, cx:wnbaCX, color:'#c94a6e', nodes:wnbaNodes})),
+];
+
+allTop.forEach(player => {
+  const node = player.nodes.find(n => n.isTop && n.sal === player.salary);
+  if (!node) return;
+  const initial = player.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+  drawPlaceholderCircle(node.x, node.y, PHOTO_R, player.color, initial);
+
+  // Name label to the right
+  ctx.fillStyle = player.color;
+  ctx.font = 'bold 9px "DM Mono",monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText(player.name.split(' ')[0] + ' · ' + fmtSal(player.salary), node.x + PHOTO_R + 4, node.y + 3);
+});
+
+// ── Hover tooltip ───────────────────────────────────────────────
+const tip = document.getElementById('tip');
+const allNodes = [...nbaNodes, ...wnbaNodes];
+const allTopMap = new Map([
+  ...TOP_PLAYERS.NBA.map(p=>[p.salary+'_nba',p]),
+  ...TOP_PLAYERS.WNBA.map(p=>[p.salary+'_wnba',p]),
+]);
+
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = (e.clientX - rect.left) * (CW / rect.width);
+  const my = (e.clientY - rect.top)  * (CANVAS_H / rect.height);
+
+  for (const n of allNodes) {
+    const dist = Math.hypot(mx-n.x, my-n.y);
+    if (dist <= n.r + 3) {
+      const isNba = n.x < (nbaCX + wnbaCX)/2;
+      const league = isNba ? 'NBA' : 'WNBA';
+      const key = n.sal + '_' + league.toLowerCase();
+      const player = allTopMap.get(key);
+      tip.innerHTML = player
+        ? `<strong>${player.name}</strong><br>${league} · ${fmtSal(n.sal)}`
+        : `${league} player<br>${fmtSal(n.sal)}`;
+      tip.style.opacity = 1;
+      tip.style.left = (e.clientX+14)+'px';
+      tip.style.top  = (e.clientY-10)+'px';
+      return;
+    }
+  }
+  tip.style.opacity = 0;
+});
+canvas.addEventListener('mouseleave', () => tip.style.opacity=0);
+
+// ── Scroll ──────────────────────────────────────────────────────
+const stickySal = document.getElementById('sticky-sal');
+const progFill  = document.getElementById('prog-fill');
+
+window.addEventListener('scroll', () => {
+  const ct  = canvas.getBoundingClientRect().top + window.scrollY;
+  const rel = Math.max(0, window.scrollY + 80 - ct - M_TOP);
+  const pct = Math.min(1, rel / PLOT_H);
+  const sal = SALARY_MAX * (1 - pct);
+
+  stickySal.textContent = fmtSal(Math.max(0, sal));
+  progFill.style.width  = (pct*100)+'%';
+
+  const wmax = d3.max(WNBA_ALL);
+  if (sal > wmax*8)    { stickySal.style.color='#1D9E75'; progFill.style.background='#1D9E75'; }
+  else if (sal > wmax) { stickySal.style.color='#9a9589'; progFill.style.background='linear-gradient(to right,#1D9E75,#c94a6e)'; }
+  else                 { stickySal.style.color='#c94a6e'; progFill.style.background='#c94a6e'; }
+}, {passive:true});
+</script>
+</body>
+</html>
