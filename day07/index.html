@@ -124,18 +124,18 @@ const WNBA_ALL = [214284, 208060, 201400, 200000, 185000, 185000, 145500, 125000
 
 const TOP_PLAYERS = {
   NBA: [
-    { name:"Stephen Curry",         team:"Golden State Warriors", salary:59606817, img:"https://cdn.nba.com/headshots/nba/latest/1040x760/201939.png" },
-    { name:"Joel Embiid",           team:"Philadelphia 76ers",    salary:55224526, img:"https://cdn.nba.com/headshots/nba/latest/1040x760/203954.png" },
-    { name:"Nikola Jokić",          team:"Denver Nuggets",        salary:55224526, img:"https://cdn.nba.com/headshots/nba/latest/1040x760/203999.png" },
-    { name:"Kevin Durant",          team:"Houston Rockets",       salary:54708609, img:"https://cdn.nba.com/headshots/nba/latest/1040x760/201142.png" },
-    { name:"Giannis Antetokounmpo", team:"Milwaukee Bucks",       salary:54126450, img:"https://cdn.nba.com/headshots/nba/latest/1040x760/203507.png" },
+    { name:"Stephen Curry",         team:"Golden State Warriors", salary:59606817, img:"img/curry.png" },
+    { name:"Joel Embiid",           team:"Philadelphia 76ers",    salary:55224526, img:"img/embiid.png" },
+    { name:"Nikola Jokić",          team:"Denver Nuggets",        salary:55224526, img:"img/jokic.png" },
+    { name:"Kevin Durant",          team:"Houston Rockets",       salary:54708609, img:"img/durant.png" },
+    { name:"Giannis Antetokounmpo", team:"Milwaukee Bucks",       salary:54126450, img:"img/giannis.png" },
   ],
   WNBA: [
-    { name:"Napheesa Collier",      team:"Minnesota Lynx",        salary:214284, img:"https://cdn.wnba.com/headshots/wnba/latest/1040x760/1628897.png" },
-    { name:"Sabrina Ionescu",       team:"New York Liberty",      salary:208060, img:"https://cdn.wnba.com/headshots/wnba/latest/1040x760/1630187.png" },
-    { name:"Teaira McCowan",        team:"Dallas Wings",          salary:201400, img:"https://cdn.wnba.com/headshots/wnba/latest/1040x760/1628776.png" },
-    { name:"Tiffany Hayes",         team:"Golden State Valkyries",salary:200000, img:"https://cdn.wnba.com/headshots/wnba/latest/1040x760/202884.png" },
-    { name:"Courtney Vandersloot",  team:"Chicago Sky",           salary:185000, img:"https://cdn.wnba.com/headshots/wnba/latest/1040x760/202708.png" },
+    { name:"Napheesa Collier",      team:"Minnesota Lynx",        salary:214284, img:"img/collier.png" },
+    { name:"Sabrina Ionescu",       team:"New York Liberty",      salary:208060, img:"img/ionescu.png" },
+    { name:"Teaira McCowan",        team:"Dallas Wings",          salary:201400, img:"img/mccowan.png" },
+    { name:"Tiffany Hayes",         team:"Golden State Valkyries",salary:200000, img:"img/hayes.png" },
+    { name:"Courtney Vandersloot",  team:"Chicago Sky",           salary:185000, img:"img/vandersloot.png" },
   ]
 };
 
@@ -467,7 +467,7 @@ let loadedCount = 0;
 function preloadImages(callback) {
   allPlayers.forEach(player => {
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    // same-origin images, no crossOrigin needed
     img.onload = () => {
       IMG_CACHE[player.salary + '_' + player.name] = img;
       loadedCount++;
