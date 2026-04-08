@@ -1,9 +1,13 @@
 library(dplyr)
 library(lubridate)
 library(ggplot2)
-library(stringr)
+library(showtext)
+library(patchwork)
 
-# Build hourly averages
+showtext_auto()
+font_add_google("Lato", "lato")
+
+# ── Data ──────────────────────────────────────────────────────
 hourly_avg <- pm25_raw %>%
   dplyr::mutate(hour = lubridate::hour(datetime)) %>%
   dplyr::group_by(site_number, hour) %>%
@@ -18,127 +22,128 @@ hour_labels <- c(
   "12pm","1pm","2pm","3pm","4pm","5pm",
   "6pm","7pm","8pm","9pm","10pm","11pm"
 )
-
 hourly_avg$label <- hour_labels
+hourly_avg$x_pos <- hourly_avg$hour + 0.5
+BASE        <- round(min(hourly_avg$avg_pm25) - 0.4, 2)
+ANNUAL_MEAN <- 8.55
 
-caption_text <- paste0(
-  "Source: U.S. Environmental Protection Agency Air Quality System (AQS) API.\n",
-  stringr::str_wrap(
-    "Notes: PM2.5 = fine particulate matter ≤2.5 micrometers in diameter. Values are averages across 6 monitoring sites (61,609 hourly observations).",
-    width = 95
-  )
-)
+# ── Reference rings ───────────────────────────────────────────
+ring_vals <- c(8, 9, 10)
 
-# Reference ring values in actual PM2.5 units
-ring_vals <- c(7,8,9,10)
+rings_df <- do.call(rbind, lapply(ring_vals, function(rv) {
+  data.frame(x = seq(0, 24, length.out = 500), y = rv - BASE, ring = as.character(rv))
+}))
 
-# Data for drawing full circular reference rings
-rings_df <- expand.grid(
-  hour = factor(0:23, levels = 0:23),
-  ring = ring_vals
-)
+mean_ring_df <- data.frame(x = seq(0, 24, length.out = 500), y = ANNUAL_MEAN - BASE)
 
-# Data for labeling the rings
-# Change hour = 6 to 0, 12, or 18 if you want labels elsewhere
 ring_labels_df <- data.frame(
-  hour = factor(rep(6, length(ring_vals)), levels = 0:23),
-  ring = ring_vals,
-  label = as.character(ring_vals)
+  x = 16.75, y = ring_vals - BASE, label = paste0(ring_vals, " µg/m³")
 )
 
-p <- ggplot(hourly_avg, aes(x = factor(hour), y = avg_pm25 - 7.3)) +
+green_palette <- c("#1b7837", "#7fbf7b", "#d9ef8b", "#fee08b", "#fc8d59")
+
+# ── Chart — output at 8x8 inches, 150 DPI = 1200px ────────────
+# At this size, size=6 in geom_text ≈ readable, axis size=14 ≈ readable
+p <- ggplot() +
   
-  # Reference rings
-  geom_line(
+  geom_path(
     data = rings_df,
-    aes(
-      x = hour,
-      y = ring - 7.3,
-      group = factor(ring),
-      color = factor(ring == 12)
-    ),
-    inherit.aes = FALSE,
-    linewidth = 0.45,
-    show.legend = FALSE
+    aes(x = x, y = y, group = ring),
+    color = "#d2d2d2", linewidth = 0.5
   ) +
   
-  # Ring labels
+  geom_col(
+    data = hourly_avg,
+    aes(x = x_pos, y = avg_pm25 - BASE, fill = avg_pm25),
+    width = 0.85, color = "#f5f2eb", linewidth = 0.2
+  ) +
+  
+  geom_path(
+    data = mean_ring_df,
+    aes(x = x, y = y),
+    color = "#c94a2a", linewidth = 1.2, linetype = "dashed"
+  ) +
+  
   geom_text(
     data = ring_labels_df,
-    aes(
-      x = hour,
-      y = ring - 7.3,
-      label = label
-    ),
-    inherit.aes = FALSE,
-    size = 2.7,
-    color = "#9a9589",
-    family = "mono",
-    hjust = -0.3
+    aes(x = x, y = y, label = label),
+    size = 6, color = "#696969", family = "lato",
+    hjust = 1.1, vjust = 0.4
   ) +
   
-  # Bars
-  geom_col(
-    aes(fill = avg_pm25),
-    width = 0.9,
-    color = "#f5f2eb",
-    linewidth = 0.4
+  coord_polar(start = -pi / 24) +
+  scale_fill_gradientn(colors = green_palette) +
+  scale_x_continuous(
+    limits = c(0, 24),
+    breaks = seq(0.5, 23.5, by = 1),
+    labels = hour_labels
   ) +
-  
-  coord_polar(start = -pi/24) +
-  
-  scale_fill_gradientn(
-    colors = c("#1D9E75", "#7c6fc4", "#c94a2a")
-  ) +
-  
-  scale_color_manual(
-    values = c("FALSE" = "#d8d2c6", "TRUE" = "#9a9589")
-  ) +
-  
-  scale_x_discrete(labels = hour_labels) +
   
   theme_void() +
   theme(
-    text                  = element_text(family = "mono"),
-    axis.text.x           = element_text(size = 9, color = "#9a9589"),
-    plot.background       = element_rect(fill = "#f5f2eb", color = NA),
-    plot.margin           = margin(25, 30, 35, 30),
-    plot.title            = element_text(
-      size = 14,
-      hjust = 0.5,
-      face = "bold",
-      margin = margin(b = 4)
-    ),
-    plot.subtitle         = element_text(
-      size = 9,
-      hjust = 0.5,
-      color = "#9a9589",
-      margin = margin(b = 10)
-    ),
-    plot.caption          = element_text(
-      size = 8,
-      color = "#5a5650",
-      hjust = 0,
-      lineheight = 1.3,
-      margin = margin(t = 12)
-    ),
-    plot.caption.position = "plot",
-    legend.position       = "none"
-  ) +
-  labs(
-    title    = "Air Pollution Follows a Daily Cycle",
-    subtitle = "Average PM2.5 (µg/m³) by hour of day in Philadelphia, 2024",
-    caption  = caption_text
+    text            = element_text(family = "lato"),
+    axis.text.x     = element_text(size = 14, color = "#696969"),
+    plot.background = element_rect(fill = "#f5f2eb", color = NA),
+    plot.margin     = margin(20, 20, 0, 20),
+    legend.position = "none"
   )
 
-print(p)
+# ── Legend ────────────────────────────────────────────────────
+p_legend <- ggplot() +
+  annotate("segment",
+           x = 0.02, xend = 0.09, y = 0.5, yend = 0.5,
+           color = "#c94a2a", linewidth = 1.5, linetype = "dashed"
+  ) +
+  annotate("text",
+           x = 0.11, y = 0.5,
+           label = "Annual mean (8.55 µg/m³)",
+           hjust = 0, vjust = 0.5,
+           size = 5, family = "lato", color = "#c94a2a"
+  ) +
+  xlim(0, 1) + ylim(0, 1) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = "#f5f2eb", color = NA),
+    plot.margin     = margin(0, 20, 10, 20)
+  )
+
+# ── Footer ────────────────────────────────────────────────────
+p_source <- ggplot() +
+  annotate("text", x = 0, y = 0.9,
+           label = paste0(
+             "Source: U.S. Environmental Protection Agency, Air Quality System (AQS) API, 2024.\n",
+             "Notes: PM2.5 = fine particulate matter 2.5 micrometers or smaller in diameter. ",
+             "Values are averages across 6 monitoring sites (61,609 hourly observations). ",
+             "Annual mean = 8.55 µg/m³. AQS = Air Quality System."
+           ),
+           hjust = 0, vjust = 1,
+           size = 4, family = "lato",
+           color = "#696969", lineheight = 1.4
+  ) +
+  xlim(0, 1) + ylim(0, 1) +
+  theme_void() +
+  theme(
+    plot.background = element_rect(fill = "#f5f2eb", color = NA),
+    plot.margin     = margin(0, 20, 20, 20)
+  )
+
+# ── Combine and save at 8x9 inches, 150 DPI ───────────────────
+bg <- theme(plot.background = element_rect(fill = "#f5f2eb", color = NA))
+p        <- p        + bg
+p_legend <- p_legend + bg
+p_source <- p_source + bg
+
+final <- p / p_legend / p_source +
+  plot_layout(heights = c(16, 1.5, 4))
 
 ggsave(
   "pm25_circular_2024.png",
-  plot = p,
-  width = 1500,
-  height = 850,
-  units = "px",
-  dpi = 300,
-  bg = "#f5f2eb"
+  plot   = final,
+  width  = 8,
+  height = 11,
+  units  = "in",
+  dpi    = 150,
+  bg     = "#f5f2eb"
 )
+
+cat("Saved → pm25_circular_2024.png\n")
