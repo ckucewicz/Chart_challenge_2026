@@ -1,19 +1,16 @@
 """
-MLB salary scraper — scrapes all 30 team pages from baseball-reference.com
-No manual steps needed. Run from any directory.
+MLB salary scraper — all 30 teams from baseball-reference.com
+Strictly grabs the 2026 salary column only. No fallback dollar scanning.
 
 Usage:
     python scrape_mlb_final.py
-
-Output: mlb_salaries.csv in the current directory
+Output: mlb_salaries.csv
 """
 
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import time
-import re
-import sys
+import time, re, sys
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/123.0 Safari/537.36",
@@ -55,18 +52,25 @@ TEAMS = [
 ]
 
 def parse_salary(s):
+    """Parse $40M, $14.5M, $2.16M, $894,000 etc. Returns None if not a salary."""
     s = str(s).strip()
-    if not s or s in ('FA','Arb','nan',''):
+    # Skip non-salary values
+    if not s or s in ('FA', 'Arb', 'nan', '', '-', 'N/A'):
         return None
-    # "$40M", "$14.5M", "$2.16M"
-    m = re.search(r'\$([\d.]+)M', s)
+    # Skip anything that looks like an arbitration estimate label
+    if s.lower().startswith('arb'):
+        return None
+    # "$40M" or "$14.5M"
+    m = re.match(r'^\$?([\d.]+)M$', s)
     if m:
         return int(float(m.group(1)) * 1_000_000)
-    # "$40,000,000" or "$758,750"
-    m = re.match(r'\$?([\d,]+)$', s.replace(',',''))
+    # "$894,000" or "$1,200,000"
+    m = re.match(r'^\$?([\d,]+)$', s.replace(',', ''))
     if m:
-        v = int(m.group(1).replace(',',''))
-        return v if v > 10000 else None
+        v = int(m.group(1).replace(',', ''))
+        # Sanity check: MLB salary must be between $500K and $50M for a single year
+        if 500_000 <= v <= 50_000_000:
+            return v
     return None
 
 def scrape_team(abbr, slug, team_name, division):
@@ -75,12 +79,10 @@ def scrape_team(abbr, slug, team_name, division):
         r = requests.get(url, headers=HEADERS, timeout=25)
         r.raise_for_status()
     except Exception as e:
-        print(f"  ✗ {team_name}: fetch error — {e}")
+        print(f"  ✗ {team_name}: {e}")
         return []
 
     soup = BeautifulSoup(r.text, "lxml")
-
-    # Find the salary table
     table = (soup.find("table", id=re.compile("salary", re.I))
              or soup.find("table", id=re.compile("contract", re.I))
              or soup.find("table"))
@@ -88,64 +90,50 @@ def scrape_team(abbr, slug, team_name, division):
         print(f"  ✗ {team_name}: no table found")
         return []
 
-    # Identify header row to find salary column
-    headers = []
-    for tr in table.find_all("tr"):
-        ths = tr.find_all(["th","td"])
-        if ths and len(ths) > 5:
-            headers = [th.get_text(strip=True) for th in ths]
+    # Find header row and locate EXACTLY the 2026 column
+    header_row = None
+    for tr in table.find_all('tr'):
+        cells = tr.find_all(['th', 'td'])
+        texts = [c.get_text(strip=True) for c in cells]
+        if '2026' in texts:
+            header_row = texts
             break
 
-    # Find current year salary column (2025 or 2026)
-    sal_col = None
-    for i, h in enumerate(headers):
-        if h in ("2026","2025"):
-            sal_col = i
-            break
-    if sal_col is None:
-        sal_col = 7  # fallback — typically 8th column
+    if not header_row:
+        print(f"  ✗ {team_name}: no 2026 column found in headers: {header_row}")
+        return []
+
+    # Get the index of the FIRST occurrence of '2026'
+    sal_col = header_row.index('2026')
+    print(f"      Found '2026' at column {sal_col}", end=" ")
 
     rows = []
     tbody = table.find("tbody") or table
     for tr in tbody.find_all("tr"):
         cls = tr.get("class", [])
-        if any(c in cls for c in ["thead","spacer","partial_table"]):
+        if any(c in cls for c in ["thead", "spacer", "partial_table"]):
             continue
 
-        cells = tr.find_all(["th","td"])
-        if len(cells) < 4:
+        cells = tr.find_all(["th", "td"])
+        if len(cells) < sal_col + 1:
             continue
 
-        # Player name — look for a link first
+        # Player name — find link to a player page
         player = None
         for cell in cells:
             a = cell.find("a")
-            if a and a.get("href","").startswith("/players/"):
+            if a and "/players/" in a.get("href", ""):
                 player = a.get_text(strip=True)
                 break
         if not player:
             player = cells[0].get_text(strip=True)
-
-        if not player or player in ("Name","Player","Totals",""):
-            continue
-        if re.match(r'^-+$', player):
+        if not player or player in ("Name", "Player", "Totals", ""):
             continue
 
-        # Salary from detected column
-        salary = None
-        if sal_col < len(cells):
-            salary = parse_salary(cells[sal_col].get_text(strip=True))
-
-        # Fallback: scan all cells for a dollar amount
-        if not salary:
-            for cell in cells:
-                txt = cell.get_text(strip=True)
-                s = parse_salary(txt)
-                if s and s > 500_000:
-                    salary = s
-                    break
-
-        if salary and salary > 100_000:
+        # Salary — ONLY from the exact 2026 column, no fallback
+        raw = cells[sal_col].get_text(strip=True)
+        salary = parse_salary(raw)
+        if salary:
             rows.append({
                 "player":   player,
                 "team":     team_name,
@@ -156,9 +144,8 @@ def scrape_team(abbr, slug, team_name, division):
 
     return rows
 
-# ── Run ───────────────────────────────────────────────────────────
-print(f"Scraping {len(TEAMS)} MLB teams from baseball-reference.com...")
-print("This will take ~1 minute (polite 1.5s delay between requests)\n")
+# ── Run ──────────────────────────────────────────────────────────
+print(f"Scraping {len(TEAMS)} MLB teams (2026 salary column only)...\n")
 
 all_rows = []
 seen = set()
@@ -167,29 +154,25 @@ for i, (abbr, slug, name, div) in enumerate(TEAMS):
     print(f"[{i+1:2d}/30] {name}...", end=" ", flush=True)
     rows = scrape_team(abbr, slug, name, div)
 
-    # Dedup players who appear on multiple teams
     unique = []
     for row in rows:
         if row["player"] not in seen:
             seen.add(row["player"])
             unique.append(row)
 
-    print(f"{len(unique)} players")
+    print(f"→ {len(unique)} players")
     all_rows.extend(unique)
     time.sleep(1.5)
 
 if not all_rows:
-    print("\n✗ No data collected — Baseball Reference may have blocked requests.")
-    print("  Try running again, or reduce the number of requests.")
+    print("\n✗ No data collected.")
     sys.exit(1)
 
 df = pd.DataFrame(all_rows).sort_values("salary", ascending=False).reset_index(drop=True)
 df.to_csv("mlb_salaries.csv", index=False)
 
-print(f"\n✓ Saved mlb_salaries.csv — {len(df)} players across {df['team'].nunique()} teams")
-print(f"  Salary range: ${df['salary'].min():,} – ${df['salary'].max():,}")
+print(f"\n✓ Saved mlb_salaries.csv — {len(df)} players")
+print(f"  Range: ${df['salary'].min():,} – ${df['salary'].max():,}")
 print(f"  Median: ${df['salary'].median():,.0f}")
 print(f"\nTop 10 salaries:")
 print(df[['player','team','salary']].head(10).to_string(index=False))
-print(f"\nTotal payroll by team (top 10):")
-print(df.groupby('team')['salary'].sum().sort_values(ascending=False).head(10).apply(lambda x: f"${x/1e6:.1f}M").to_string())

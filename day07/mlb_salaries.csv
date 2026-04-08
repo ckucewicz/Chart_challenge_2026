@@ -1,5 +1,4 @@
 player,team,division,salary,league
-Pete Crow-Armstrong,Chicago Cubs,NL Central,115000000,MLB
 Juan Soto,New York Mets,NL East,51900000,MLB
 Cody Bellinger,New York Yankees,AL East,42500000,MLB
 Bo Bichette,New York Mets,NL East,42000000,MLB
@@ -29,21 +28,21 @@ Blake Snell,Los Angeles Dodgers,NL West,27870000,MLB
 Carlos RodÃ³n,New York Yankees,AL East,27830000,MLB
 Bryce Harper,Philadelphia Phillies,NL East,27540000,MLB
 Trea Turner,Philadelphia Phillies,NL East,27270000,MLB
-Freddie Freeman,Los Angeles Dodgers,NL West,27000000,MLB
-Kris Bryant,Colorado Rockies,NL West,27000000,MLB
 Nolan Arenado,Arizona Diamondbacks,NL West,27000000,MLB
+Kris Bryant,Colorado Rockies,NL West,27000000,MLB
+Freddie Freeman,Los Angeles Dodgers,NL West,27000000,MLB
 Yordan Alvarez,Houston Astros,AL West,26830000,MLB
 Alex Bregman,Chicago Cubs,NL Central,26290000,MLB
+Ranger Suarez,Boston Red Sox,AL East,26000000,MLB
 Marcus Semien,New York Mets,NL East,26000000,MLB
 Christian Yelich,Milwaukee Brewers,NL Central,26000000,MLB
-Ranger Suarez,Boston Red Sox,AL East,26000000,MLB
 Xander Bogaerts,San Diego Padres,NL West,25450000,MLB
 Matt Chapman,San Francisco Giants,NL West,25170000,MLB
 Manny Machado,San Diego Padres,NL West,25090000,MLB
-Trevor Story,Boston Red Sox,AL East,25000000,MLB
-Sean Manaea,New York Mets,NL East,25000000,MLB
-Luis Severino,Athletics,AL West,25000000,MLB
 Robbie Ray,San Francisco Giants,NL West,25000000,MLB
+Trevor Story,Boston Red Sox,AL East,25000000,MLB
+Luis Severino,Athletics,AL West,25000000,MLB
+Sean Manaea,New York Mets,NL East,25000000,MLB
 Garrett Crochet,Boston Red Sox,AL East,24670000,MLB
 Aaron Nola,Philadelphia Phillies,NL East,24570000,MLB
 George Springer,Toronto Blue Jays,AL East,24170000,MLB
@@ -51,12 +50,12 @@ Luis Castillo,Seattle Mariners,AL West,24150000,MLB
 Javier BÃ¡ez,Detroit Tigers,AL Central,24000000,MLB
 Logan Webb,San Francisco Giants,NL West,23000000,MLB
 Kevin Gausman,Toronto Blue Jays,AL East,23000000,MLB
-Framber Valdez,Detroit Tigers,AL Central,22830000,MLB
 Jung Hoo Lee,San Francisco Giants,NL West,22830000,MLB
+Framber Valdez,Detroit Tigers,AL Central,22830000,MLB
 Trent Grisham,New York Yankees,AL East,22020000,MLB
 Shota Imanaga,Chicago Cubs,NL Central,22020000,MLB
-Brandon Woodruff,Milwaukee Brewers,NL Central,22020000,MLB
 Gleyber Torres,Detroit Tigers,AL Central,22020000,MLB
+Brandon Woodruff,Milwaukee Brewers,NL Central,22020000,MLB
 Austin Riley,Atlanta Braves,NL East,22000000,MLB
 Matt Olson,Atlanta Braves,NL East,22000000,MLB
 Pablo LÃ³pez,Minnesota Twins,AL Central,21750000,MLB
@@ -69,56 +68,56 @@ Dylan Cease,Toronto Blue Jays,AL East,20900000,MLB
 Fernando Tatis Jr.,San Diego Padres,NL West,20710000,MLB
 Brandon Nimmo,Texas Rangers,AL West,20500000,MLB
 Julio RodrÃ­guez,Seattle Mariners,AL West,20190000,MLB
-Ha-Seong Kim,Atlanta Braves,NL East,20000000,MLB
 Christian Walker,Houston Astros,AL West,20000000,MLB
-Merrill Kelly,Arizona Diamondbacks,NL West,20000000,MLB
 Spencer Strider,Atlanta Braves,NL East,20000000,MLB
 Joe Musgrove,San Diego Padres,NL West,20000000,MLB
+Merrill Kelly,Arizona Diamondbacks,NL West,20000000,MLB
 Nick Castellanos,San Diego Padres,NL West,20000000,MLB
+Ha-Seong Kim,Atlanta Braves,NL East,20000000,MLB
 Nick Pivetta,San Diego Padres,NL West,19750000,MLB
 Teoscar HernÃ¡ndez,Los Angeles Dodgers,NL West,19670000,MLB
 Anthony Santander,Toronto Blue Jays,AL East,19200000,MLB
-Seiya Suzuki,Chicago Cubs,NL Central,19000000,MLB
 Josh Hader,Houston Astros,AL West,19000000,MLB
 Ian Happ,Chicago Cubs,NL Central,19000000,MLB
+Seiya Suzuki,Chicago Cubs,NL Central,19000000,MLB
 JosÃ© BerrÃ­os,Toronto Blue Jays,AL East,18710000,MLB
 Masataka Yoshida,Boston Red Sox,AL East,18600000,MLB
 Chris Bassitt,Baltimore Orioles,AL East,18500000,MLB
 JosÃ© RamÃ­rez,Cleveland Guardians,AL Central,18360000,MLB
 Michael Wacha,Kansas City Royals,AL Central,18000000,MLB
-Taijuan Walker,Philadelphia Phillies,NL East,18000000,MLB
+Chris Sale,Atlanta Braves,NL East,18000000,MLB
 Jameson Taillon,Chicago Cubs,NL Central,18000000,MLB
 Kyle Schwarber,Philadelphia Phillies,NL East,18000000,MLB
 Willson Contreras,Boston Red Sox,AL East,18000000,MLB
-Chris Sale,Atlanta Braves,NL East,18000000,MLB
+Taijuan Walker,Philadelphia Phillies,NL East,18000000,MLB
 Lance McCullers Jr.,Houston Astros,AL West,17700000,MLB
 Sandy Alcantara,Miami Marlins,NL East,17300000,MLB
 Andrew Benintendi,Chicago White Sox,AL Central,17100000,MLB
-Ronald AcuÃ±a Jr.,Atlanta Braves,NL East,17000000,MLB
 Jorge Polanco,New York Mets,NL East,17000000,MLB
+Ronald AcuÃ±a Jr.,Atlanta Braves,NL East,17000000,MLB
 Matthew Boyd,Chicago Cubs,NL Central,17000000,MLB
 Mitch Keller,Pittsburgh Pirates,NL Central,16910000,MLB
 Tyler O'Neill,Baltimore Orioles,AL East,16500000,MLB
 Zac Gallen,Arizona Diamondbacks,NL West,16200000,MLB
 Yoshinobu Yamamoto,Los Angeles Dodgers,NL West,16170000,MLB
-Yu Darvish,San Diego Padres,NL West,16000000,MLB
-Jorge Soler,Los Angeles Angels,AL West,16000000,MLB
-Kyle Freeland,Colorado Rockies,NL West,16000000,MLB
-Tanner Scott,Los Angeles Dodgers,NL West,16000000,MLB
 Will Smith,Los Angeles Dodgers,NL West,16000000,MLB
-Raisel Iglesias,Atlanta Braves,NL East,16000000,MLB
+Kyle Freeland,Colorado Rockies,NL West,16000000,MLB
 Ryan McMahon,New York Yankees,AL East,16000000,MLB
+Yu Darvish,San Diego Padres,NL West,16000000,MLB
+Tanner Scott,Los Angeles Dodgers,NL West,16000000,MLB
+Jorge Soler,Los Angeles Angels,AL West,16000000,MLB
+Raisel Iglesias,Atlanta Braves,NL East,16000000,MLB
 Jeff McNeil,Athletics,AL West,15750000,MLB
 Randy Arozarena,Seattle Mariners,AL West,15650000,MLB
 AndrÃ©s GimÃ©nez,Toronto Blue Jays,AL East,15570000,MLB
 Wander Franco,Tampa Bay Rays,AL East,15450000,MLB
 Byron Buxton,Minnesota Twins,AL Central,15140000,MLB
-Ketel Marte,Arizona Diamondbacks,NL West,15000000,MLB
-Kodai Senga,New York Mets,NL East,15000000,MLB
 Jurickson Profar,Atlanta Braves,NL East,15000000,MLB
-Eugenio SuÃ¡rez,Cincinnati Reds,NL Central,15000000,MLB
-J.T. Realmuto,Philadelphia Phillies,NL East,15000000,MLB
 Sean Murphy,Atlanta Braves,NL East,15000000,MLB
+J.T. Realmuto,Philadelphia Phillies,NL East,15000000,MLB
+Ketel Marte,Arizona Diamondbacks,NL West,15000000,MLB
+Eugenio SuÃ¡rez,Cincinnati Reds,NL Central,15000000,MLB
+Kodai Senga,New York Mets,NL East,15000000,MLB
 Max Fried,New York Yankees,AL East,14500000,MLB
 Ryan O'Hearn,Pittsburgh Pirates,NL Central,14500000,MLB
 Bryan Reynolds,Pittsburgh Pirates,NL Central,14250000,MLB
@@ -127,31 +126,30 @@ Bobby Witt Jr.,Kansas City Royals,AL Central,14110000,MLB
 Edwin DÃ­az,Los Angeles Dodgers,NL West,14010000,MLB
 Reynaldo LÃ³pez,Atlanta Braves,NL East,14000000,MLB
 Ryan Helsley,Baltimore Orioles,AL East,14000000,MLB
-Nathaniel Lowe,Cincinnati Reds,NL Central,13500000,MLB
 Blake Treinen,Los Angeles Dodgers,NL West,13500000,MLB
 Willy Adames,San Francisco Giants,NL West,13140000,MLB
-Aroldis Chapman,Boston Red Sox,AL East,13000000,MLB
 Clay Holmes,New York Mets,NL East,13000000,MLB
+Lourdes Gurriel Jr.,Arizona Diamondbacks,NL West,13000000,MLB
+Aroldis Chapman,Boston Red Sox,AL East,13000000,MLB
 Robert Suarez,Atlanta Braves,NL East,13000000,MLB
 Pete Fairbanks,Miami Marlins,NL East,13000000,MLB
-Lourdes Gurriel Jr.,Arizona Diamondbacks,NL West,13000000,MLB
-Brady Singer,Cincinnati Reds,NL Central,12750000,MLB
 Patrick Sandoval,Boston Red Sox,AL East,12750000,MLB
+Brady Singer,Cincinnati Reds,NL Central,12750000,MLB
 Cal Raleigh,Seattle Mariners,AL West,12670000,MLB
 Jeff Hoffman,Toronto Blue Jays,AL East,12670000,MLB
 Jordan Hicks,Chicago White Sox,AL Central,12500000,MLB
 Jake Cronenworth,San Diego Padres,NL West,12290000,MLB
 Taylor Ward,Baltimore Orioles,AL East,12180000,MLB
 Tommy Edman,Los Angeles Dodgers,NL West,12040000,MLB
-J.P. Crawford,Seattle Mariners,AL West,12000000,MLB
-Nico Hoerner,Chicago Cubs,NL Central,12000000,MLB
-Dustin May,St. Louis Cardinals,NL Central,12000000,MLB
 Michael King,San Diego Padres,NL West,12000000,MLB
 Antonio Senzatela,Colorado Rockies,NL West,12000000,MLB
 Luis Arraez,San Francisco Giants,NL West,12000000,MLB
+Nico Hoerner,Chicago Cubs,NL Central,12000000,MLB
+J.P. Crawford,Seattle Mariners,AL West,12000000,MLB
+Dustin May,St. Louis Cardinals,NL Central,12000000,MLB
 Josh Naylor,Seattle Mariners,AL West,11300000,MLB
-JesÃºs Luzardo,Philadelphia Phillies,NL East,11000000,MLB
 Robert Stephenson,Los Angeles Angels,AL West,11000000,MLB
+JesÃºs Luzardo,Philadelphia Phillies,NL East,11000000,MLB
 Logan Gilbert,Seattle Mariners,AL West,10930000,MLB
 Daulton Varsho,Toronto Blue Jays,AL East,10750000,MLB
 Corbin Carroll,Arizona Diamondbacks,NL West,10620000,MLB
@@ -160,45 +158,45 @@ Marcell Ozuna,Pittsburgh Pirates,NL Central,10500000,MLB
 Harrison Bader,San Francisco Giants,NL West,10250000,MLB
 Alec Bohm,Philadelphia Phillies,NL East,10200000,MLB
 Jazz Chisholm Jr.,New York Yankees,AL East,10200000,MLB
-Max Muncy,Los Angeles Dodgers,NL West,10000000,MLB
+Jack Flaherty,Detroit Tigers,AL Central,10000000,MLB
+Adolis GarcÃ­a,Philadelphia Phillies,NL East,10000000,MLB
 Carlos EstÃ©vez,Kansas City Royals,AL Central,10000000,MLB
 Seranthony DomÃ­nguez,Chicago White Sox,AL Central,10000000,MLB
 Tyler Mahle,San Francisco Giants,NL West,10000000,MLB
+Max Muncy,Los Angeles Dodgers,NL West,10000000,MLB
 Emilio PagÃ¡n,Cincinnati Reds,NL Central,10000000,MLB
-Jack Flaherty,Detroit Tigers,AL Central,10000000,MLB
-Adolis GarcÃ­a,Philadelphia Phillies,NL East,10000000,MLB
-Aaron Bummer,Atlanta Braves,NL East,9500000,MLB
-Kyle Finnegan,Detroit Tigers,AL Central,9500000,MLB
 Luke Weaver,New York Mets,NL East,9500000,MLB
+Kyle Finnegan,Detroit Tigers,AL Central,9500000,MLB
+Aaron Bummer,Atlanta Braves,NL East,9500000,MLB
 Jeremy PeÃ±a,Houston Astros,AL West,9470000,MLB
 William Contreras,Milwaukee Brewers,NL Central,9400000,MLB
 Isaac Paredes,Houston Astros,AL West,9350000,MLB
 Nick Martinez,Tampa Bay Rays,AL East,9000000,MLB
-David Bednar,New York Yankees,AL East,9000000,MLB
-Mike Yastrzemski,Atlanta Braves,NL East,9000000,MLB
-Brad Keller,Philadelphia Phillies,NL East,9000000,MLB
 Joe JimÃ©nez,Atlanta Braves,NL East,9000000,MLB
+David Bednar,New York Yankees,AL East,9000000,MLB
+Brad Keller,Philadelphia Phillies,NL East,9000000,MLB
 Kenley Jansen,Detroit Tigers,AL Central,9000000,MLB
+Mike Yastrzemski,Atlanta Braves,NL East,9000000,MLB
 Alejandro Kirk,Toronto Blue Jays,AL East,8700000,MLB
 Tyler Rogers,Toronto Blue Jays,AL East,8670000,MLB
 Gunnar Henderson,Baltimore Orioles,AL East,8500000,MLB
 Hunter Greene,Cincinnati Reds,NL Central,8330000,MLB
 David Peterson,New York Mets,NL East,8100000,MLB
 Jonathan India,Kansas City Royals,AL Central,8000000,MLB
+Brent Rooker,Athletics,AL West,8000000,MLB
 Michael Lorenzen,Colorado Rockies,NL West,8000000,MLB
 Michael Harris II,Atlanta Braves,NL East,8000000,MLB
 Zach Eflin,Baltimore Orioles,AL East,8000000,MLB
-Brent Rooker,Athletics,AL West,8000000,MLB
 Justin Verlander,Detroit Tigers,AL Central,7860000,MLB
 Gregory Soto,Pittsburgh Pirates,NL Central,7750000,MLB
 Steven Kwan,Cleveland Guardians,AL Central,7720000,MLB
 Jarren Duran,Boston Red Sox,AL East,7700000,MLB
 Andrew Vaughn,Milwaukee Brewers,NL Central,7650000,MLB
-Steven Matz,Tampa Bay Rays,AL East,7500000,MLB
 Jhoan Duran,Philadelphia Phillies,NL East,7500000,MLB
-Garrett Whitlock,Boston Red Sox,AL East,7500000,MLB
 Michael Soroka,Arizona Diamondbacks,NL West,7500000,MLB
 Yimi GarcÃ­a,Toronto Blue Jays,AL East,7500000,MLB
+Garrett Whitlock,Boston Red Sox,AL East,7500000,MLB
+Steven Matz,Tampa Bay Rays,AL East,7500000,MLB
 Myles Straw,Toronto Blue Jays,AL East,7400000,MLB
 Adley Rutschman,Baltimore Orioles,AL East,7250000,MLB
 Jackson Chourio,Milwaukee Brewers,NL Central,7250000,MLB
@@ -218,160 +216,154 @@ Ryan Jeffers,Minnesota Twins,AL Central,6700000,MLB
 Jason Adam,San Diego Padres,NL West,6670000,MLB
 Yariel RodrÃ­guez,Toronto Blue Jays,AL East,6600000,MLB
 George Kirby,Seattle Mariners,AL West,6550000,MLB
-Evan Phillips,Los Angeles Dodgers,NL West,6500000,MLB
 Cedric Mullins,Tampa Bay Rays,AL East,6500000,MLB
-Emmanuel Clase,Cleveland Guardians,AL Central,6400000,MLB
+Evan Phillips,Los Angeles Dodgers,NL West,6500000,MLB
 Willi Castro,Colorado Rockies,NL West,6400000,MLB
+Emmanuel Clase,Cleveland Guardians,AL Central,6400000,MLB
 Geraldo Perdomo,Arizona Diamondbacks,NL West,6250000,MLB
 Rob Refsnyder,Seattle Mariners,AL West,6250000,MLB
 Trevor Rogers,Baltimore Orioles,AL East,6200000,MLB
 Brayan Bello,Boston Red Sox,AL East,6170000,MLB
-Kris Bubic,Kansas City Royals,AL Central,6150000,MLB
 Casey Mize,Detroit Tigers,AL Central,6150000,MLB
+Kris Bubic,Kansas City Royals,AL Central,6150000,MLB
 Joe Ryan,Minnesota Twins,AL Central,6100000,MLB
-Camilo Doval,New York Yankees,AL East,6100000,MLB
 Mauricio DubÃ³n,Atlanta Braves,NL East,6100000,MLB
+Camilo Doval,New York Yankees,AL East,6100000,MLB
+Hunter Harvey,Chicago Cubs,NL Central,6000000,MLB
 Isiah Kiner-Falefa,Boston Red Sox,AL East,6000000,MLB
-Aaron Civale,Athletics,AL West,6000000,MLB
 Travis d'Arnaud,Los Angeles Angels,AL West,6000000,MLB
 Cody Ponce,Toronto Blue Jays,AL East,6000000,MLB
-Hunter Harvey,Chicago Cubs,NL Central,6000000,MLB
 Jose Quintana,Colorado Rockies,NL West,6000000,MLB
+Aaron Civale,Athletics,AL West,6000000,MLB
 Bryson Stott,Philadelphia Phillies,NL East,5900000,MLB
 Bryan Abreu,Houston Astros,AL West,5850000,MLB
 Brendan Donovan,Seattle Mariners,AL West,5800000,MLB
+Drew Rasmussen,Tampa Bay Rays,AL East,5750000,MLB
+Josh Bell,Minnesota Twins,AL Central,5750000,MLB
 Dean Kremer,Baltimore Orioles,AL East,5750000,MLB
 Yuki Matsui,San Diego Padres,NL West,5750000,MLB
-Josh Bell,Minnesota Twins,AL Central,5750000,MLB
-Drew Rasmussen,Tampa Bay Rays,AL East,5750000,MLB
 Hunter Brown,Houston Astros,AL West,5710000,MLB
 Aaron Ashby,Milwaukee Brewers,NL Central,5700000,MLB
 MacKenzie Gore,Texas Rangers,AL West,5600000,MLB
 Gavin Lux,Tampa Bay Rays,AL East,5530000,MLB
-Foster Griffin,Washington Nationals,NL East,5500000,MLB
-Miguel Rojas,Los Angeles Dodgers,NL West,5500000,MLB
 Pierce Johnson,Cincinnati Reds,NL Central,5500000,MLB
+Miguel Rojas,Los Angeles Dodgers,NL West,5500000,MLB
+Foster Griffin,Washington Nationals,NL East,5500000,MLB
 Phil Maton,Chicago Cubs,NL Central,5500000,MLB
 Keibert Ruiz,Washington Nationals,NL East,5380000,MLB
 Lars Nootbaar,St. Louis Cardinals,NL Central,5350000,MLB
-Lane Thomas,Kansas City Royals,AL Central,5250000,MLB
-Jose Trevino,Cincinnati Reds,NL Central,5250000,MLB
 Shea Langeliers,Athletics,AL West,5250000,MLB
+Jose Trevino,Cincinnati Reds,NL Central,5250000,MLB
+Lane Thomas,Kansas City Royals,AL Central,5250000,MLB
 Ezequiel Tovar,Colorado Rockies,NL West,5210000,MLB
-Jo Adell,Los Angeles Angels,AL West,5200000,MLB
 Brandon Marsh,Philadelphia Phillies,NL East,5200000,MLB
 Bailey Ober,Minnesota Twins,AL Central,5200000,MLB
+Jo Adell,Los Angeles Angels,AL West,5200000,MLB
 VÃ­ctor Robles,Seattle Mariners,AL West,5120000,MLB
 Tomoyuki Sugano,Colorado Rockies,NL West,5100000,MLB
+Anthony Kay,Chicago White Sox,AL Central,5000000,MLB
 Carson Kelly,Chicago Cubs,NL Central,5000000,MLB
 Austin Hays,Chicago White Sox,AL Central,5000000,MLB
-Kirby Yates,Los Angeles Angels,AL West,5000000,MLB
 Riley Greene,Detroit Tigers,AL Central,5000000,MLB
-Anthony Kay,Chicago White Sox,AL Central,5000000,MLB
+Kirby Yates,Los Angeles Angels,AL West,5000000,MLB
 Nick Lodolo,Cincinnati Reds,NL Central,4720000,MLB
 Trevor Megill,Milwaukee Brewers,NL Central,4700000,MLB
 Ernie Clement,Toronto Blue Jays,AL East,4600000,MLB
 Cole Ragans,Kansas City Royals,AL Central,4580000,MLB
-Sean Newcomb,Chicago White Sox,AL Central,4500000,MLB
-Enrique HernÃ¡ndez,Los Angeles Dodgers,NL West,4500000,MLB
 Caleb Ferguson,Cincinnati Reds,NL Central,4500000,MLB
+Sean Newcomb,Chicago White Sox,AL Central,4500000,MLB
+Gavin Sheets,San Diego Padres,NL West,4500000,MLB
+Enrique HernÃ¡ndez,Los Angeles Dodgers,NL West,4500000,MLB
 Yainer Diaz,Houston Astros,AL West,4500000,MLB
 Clarke Schmidt,New York Yankees,AL East,4500000,MLB
-Gavin Sheets,San Diego Padres,NL West,4500000,MLB
 Trevor Larnach,Minnesota Twins,AL Central,4470000,MLB
 Edward Cabrera,Chicago Cubs,NL Central,4450000,MLB
-Tanner Bibee,Cleveland Guardians,AL Central,4400000,MLB
 Edmundo Sosa,Philadelphia Phillies,NL East,4400000,MLB
+Tanner Bibee,Cleveland Guardians,AL Central,4400000,MLB
 Eric Lauer,Toronto Blue Jays,AL East,4400000,MLB
 Colt Keith,Detroit Tigers,AL Central,4330000,MLB
 JoJo Romero,St. Louis Cardinals,NL Central,4260000,MLB
-CJ Abrams,Washington Nationals,NL East,4200000,MLB
-Vinnie Pasquantino,Kansas City Royals,AL Central,4200000,MLB
 Zach McKinstry,Detroit Tigers,AL Central,4200000,MLB
+Vinnie Pasquantino,Kansas City Royals,AL Central,4200000,MLB
 Maikel Garcia,Kansas City Royals,AL Central,4200000,MLB
-Brice Turang,Milwaukee Brewers,NL Central,4150000,MLB
+CJ Abrams,Washington Nationals,NL East,4200000,MLB
 Zach Neto,Los Angeles Angels,AL West,4150000,MLB
+Brice Turang,Milwaukee Brewers,NL Central,4150000,MLB
 Tanner Houck,Boston Red Sox,AL East,4099999,MLB
 Spencer Torkelson,Detroit Tigers,AL Central,4080000,MLB
-Shawn Armstrong,Cleveland Guardians,AL Central,4000000,MLB
-Drew Pomeranz,Los Angeles Angels,AL West,4000000,MLB
 YoÃ¡n Moncada,Los Angeles Angels,AL West,4000000,MLB
-Chris Martin,Texas Rangers,AL West,4000000,MLB
-Spencer Steer,Cincinnati Reds,NL Central,4000000,MLB
-Paul Goldschmidt,New York Yankees,AL East,4000000,MLB
-Mickey Moniak,Colorado Rockies,NL West,4000000,MLB
-Caleb Thielbar,Chicago Cubs,NL Central,4000000,MLB
-Chris Paddack,Miami Marlins,NL East,4000000,MLB
-Andre Pallante,St. Louis Cardinals,NL Central,4000000,MLB
 Mason Miller,San Diego Padres,NL West,4000000,MLB
-Will Vest,Detroit Tigers,AL Central,3950000,MLB
+Drew Pomeranz,Los Angeles Angels,AL West,4000000,MLB
+Spencer Steer,Cincinnati Reds,NL Central,4000000,MLB
+Mickey Moniak,Colorado Rockies,NL West,4000000,MLB
+Chris Paddack,Miami Marlins,NL East,4000000,MLB
+Chris Martin,Texas Rangers,AL West,4000000,MLB
+Caleb Thielbar,Chicago Cubs,NL Central,4000000,MLB
+Shawn Armstrong,Cleveland Guardians,AL Central,4000000,MLB
+Paul Goldschmidt,New York Yankees,AL East,4000000,MLB
+Andre Pallante,St. Louis Cardinals,NL Central,4000000,MLB
 Ryan Thompson,Arizona Diamondbacks,NL West,3950000,MLB
+Will Vest,Detroit Tigers,AL Central,3950000,MLB
 AdriÃ¡n MorejÃ³n,San Diego Padres,NL West,3900000,MLB
-Tyrone Taylor,New York Mets,NL East,3800000,MLB
 TJ Friedl,Cincinnati Reds,NL Central,3800000,MLB
+Tyrone Taylor,New York Mets,NL East,3800000,MLB
 Hoby Milner,Chicago Cubs,NL Central,3750000,MLB
 John Schreiber,Kansas City Royals,AL Central,3710000,MLB
-Shane McClanahan,Tampa Bay Rays,AL East,3600000,MLB
 Bailey Falter,Kansas City Royals,AL Central,3600000,MLB
+Shane McClanahan,Tampa Bay Rays,AL East,3600000,MLB
 Griffin Jax,Tampa Bay Rays,AL East,3560000,MLB
 Alex Vesia,Los Angeles Dodgers,NL West,3550000,MLB
-Kyle Bradish,Baltimore Orioles,AL East,3550000,MLB
 Jake Meyers,Houston Astros,AL West,3550000,MLB
+Kyle Bradish,Baltimore Orioles,AL East,3550000,MLB
 Luis Rengifo,Milwaukee Brewers,NL Central,3500000,MLB
 Ryne Stanek,St. Louis Cardinals,NL Central,3500000,MLB
-Cristopher SÃ¡nchez,Philadelphia Phillies,NL East,3500000,MLB
 Dennis Santana,Pittsburgh Pirates,NL Central,3500000,MLB
 Shane Baz,Baltimore Orioles,AL East,3500000,MLB
+Cristopher SÃ¡nchez,Philadelphia Phillies,NL East,3500000,MLB
 Anthony Volpe,New York Yankees,AL East,3480000,MLB
 Lawrence Butler,Athletics,AL West,3430000,MLB
 Brandon Pfaadt,Arizona Diamondbacks,NL West,3400000,MLB
-Chas McCormick,Chicago Cubs,NL Central,3400000,MLB
-Mike Tauchman,New York Mets,NL East,3400000,MLB
 Oneil Cruz,Pittsburgh Pirates,NL Central,3300000,MLB
 Alec Burleson,St. Louis Cardinals,NL Central,3300000,MLB
 Kerry Carpenter,Detroit Tigers,AL Central,3270000,MLB
-Matt Vierling,Detroit Tigers,AL Central,3230000,MLB
 Josh Smith,Texas Rangers,AL West,3230000,MLB
+Matt Vierling,Detroit Tigers,AL Central,3230000,MLB
 Jake Burger,Texas Rangers,AL West,3200000,MLB
 A.J. Puk,Arizona Diamondbacks,NL West,3100000,MLB
 Brenton Doyle,Colorado Rockies,NL West,3100000,MLB
 Jake Rogers,Detroit Tigers,AL Central,3050000,MLB
 Ryan Pepiot,Tampa Bay Rays,AL East,3020000,MLB
-Jake Fraley,Tampa Bay Rays,AL East,3000000,MLB
-Zack Littell,Washington Nationals,NL East,3000000,MLB
-Max Scherzer,Toronto Blue Jays,AL East,3000000,MLB
-Tyler Kinley,Atlanta Braves,NL East,3000000,MLB
-Ryne Nelson,Arizona Diamondbacks,NL West,3000000,MLB
 Tim Hill,New York Yankees,AL East,3000000,MLB
+Jake Fraley,Tampa Bay Rays,AL East,3000000,MLB
+Max Scherzer,Toronto Blue Jays,AL East,3000000,MLB
+Ryne Nelson,Arizona Diamondbacks,NL West,3000000,MLB
+Tyler Kinley,Atlanta Braves,NL East,3000000,MLB
+Zack Littell,Washington Nationals,NL East,3000000,MLB
 Keegan Akin,Baltimore Orioles,AL East,2980000,MLB
 Josh Jung,Texas Rangers,AL West,2900000,MLB
 JosÃ© Soriano,Los Angeles Angels,AL West,2900000,MLB
-Santiago Espinal,Los Angeles Dodgers,NL West,2900000,MLB
 Royce Lewis,Minnesota Twins,AL Central,2850000,MLB
 Mark Leiter Jr.,Athletics,AL West,2850000,MLB
 Anthony Bender,Miami Marlins,NL East,2810000,MLB
-Jake Irvin,Washington Nationals,NL East,2800000,MLB
 Brusdar Graterol,Los Angeles Dodgers,NL West,2800000,MLB
-Matthew Liberatore,St. Louis Cardinals,NL Central,2800000,MLB
-JP Sears,San Diego Padres,NL West,2750000,MLB
+Jake Irvin,Washington Nationals,NL East,2800000,MLB
 Jakob Junis,Texas Rangers,AL West,2750000,MLB
+JP Sears,San Diego Padres,NL West,2750000,MLB
 Kutter Crawford,Boston Red Sox,AL East,2750000,MLB
 Kevin Ginkel,Arizona Diamondbacks,NL West,2750000,MLB
-Ben Lively,Cleveland Guardians,AL Central,2700000,MLB
-Kyle Isbel,Kansas City Royals,AL Central,2700000,MLB
 Jake Bauers,Milwaukee Brewers,NL Central,2700000,MLB
+Kyle Isbel,Kansas City Royals,AL Central,2700000,MLB
 Nolan Gorman,St. Louis Cardinals,NL Central,2650000,MLB
 Logan O'Hoppe,Los Angeles Angels,AL West,2620000,MLB
-Roman Anthony,Boston Red Sox,AL East,2620000,MLB
 Reid Detmers,Los Angeles Angels,AL West,2620000,MLB
+Roman Anthony,Boston Red Sox,AL East,2620000,MLB
 Josh Lowe,Los Angeles Angels,AL West,2600000,MLB
 Gabriel Moreno,Arizona Diamondbacks,NL West,2550000,MLB
 Nick Fortes,Tampa Bay Rays,AL East,2540000,MLB
 Joey Bart,Pittsburgh Pirates,NL Central,2530000,MLB
-Tylor Megill,New York Mets,NL East,2500000,MLB
-Trent Thornton,Chicago Cubs,NL Central,2500000,MLB
-Amed Rosario,New York Yankees,AL East,2500000,MLB
 Ryan Yarbrough,New York Yankees,AL East,2500000,MLB
+Tylor Megill,New York Mets,NL East,2500000,MLB
+Amed Rosario,New York Yankees,AL East,2500000,MLB
 Ryan Feltner,Colorado Rockies,NL West,2450000,MLB
 Taylor Walls,Tampa Bay Rays,AL East,2450000,MLB
 Bryce Miller,Seattle Mariners,AL West,2440000,MLB
@@ -383,129 +375,109 @@ Brock Burke,Cincinnati Reds,NL Central,2330000,MLB
 Matt McLain,Cincinnati Reds,NL Central,2300000,MLB
 Luis Torrens,New York Mets,NL East,2270000,MLB
 Pavin Smith,Arizona Diamondbacks,NL West,2250000,MLB
-Joel Payamps,Atlanta Braves,NL East,2250000,MLB
 Miles Mikolas,Washington Nationals,NL East,2250000,MLB
-Kristian Campbell,Boston Red Sox,AL East,2250000,MLB
+Joel Payamps,Atlanta Braves,NL East,2250000,MLB
 FÃ©lix Bautista,Baltimore Orioles,AL East,2250000,MLB
 Ceddanne Rafaela,Boston Red Sox,AL East,2250000,MLB
+Kristian Campbell,Boston Red Sox,AL East,2250000,MLB
 Dylan Lee,Atlanta Braves,NL East,2200000,MLB
 Luis Gil,New York Yankees,AL East,2160000,MLB
 Gabe Speier,Seattle Mariners,AL West,2120000,MLB
 Jackson Merrill,San Diego Padres,NL West,2110000,MLB
 Freddy Fermin,San Diego Padres,NL West,2100000,MLB
-Jorge Alcala,Toronto Blue Jays,AL East,2100000,MLB
-Garrett Cleavinger,Tampa Bay Rays,AL East,2100000,MLB
 Luke Raley,Seattle Mariners,AL West,2049999,MLB
-Taylor Rogers,Minnesota Twins,AL Central,2000000,MLB
-Christopher Morel,Miami Marlins,NL East,2000000,MLB
-JosÃ© Caballero,New York Yankees,AL East,2000000,MLB
 Jason Foley,San Francisco Giants,NL West,2000000,MLB
 Scott Barlow,Athletics,AL West,2000000,MLB
-Jordan Romano,Los Angeles Angels,AL West,2000000,MLB
-Nolan Jones,Cleveland Guardians,AL Central,2000000,MLB
-Nick Sandlin,Los Angeles Angels,AL West,2000000,MLB
 Carlos Santana,Arizona Diamondbacks,NL West,2000000,MLB
+Taylor Rogers,Minnesota Twins,AL Central,2000000,MLB
+Nolan Jones,Cleveland Guardians,AL Central,2000000,MLB
+Jordan Romano,Los Angeles Angels,AL West,2000000,MLB
+Christopher Morel,Miami Marlins,NL East,2000000,MLB
+JosÃ© Caballero,New York Yankees,AL East,2000000,MLB
 Paul Blackburn,New York Yankees,AL East,2000000,MLB
 Alek Thomas,Arizona Diamondbacks,NL West,1960000,MLB
 Alek Manoah,Los Angeles Angels,AL West,1950000,MLB
 Nick Mears,Kansas City Royals,AL Central,1900000,MLB
-Kolby Allard,Cleveland Guardians,AL Central,1900000,MLB
 JT Brubaker,San Francisco Giants,NL West,1820000,MLB
-Kyle Wright,Chicago Cubs,NL Central,1800000,MLB
-Tony Santillan,Cincinnati Reds,NL Central,1800000,MLB
 Javier Assad,Chicago Cubs,NL Central,1800000,MLB
 Calvin Faucher,Miami Marlins,NL East,1800000,MLB
-Graham Ashcraft,Cincinnati Reds,NL Central,1750000,MLB
+Tony Santillan,Cincinnati Reds,NL Central,1800000,MLB
 Luis Garcia,New York Mets,NL East,1750000,MLB
 Tim Mayza,Philadelphia Phillies,NL East,1750000,MLB
+Graham Ashcraft,Cincinnati Reds,NL Central,1750000,MLB
 Will Benson,Cincinnati Reds,NL Central,1730000,MLB
-Justin Topa,Minnesota Twins,AL Central,1700000,MLB
-Anthony Banda,Minnesota Twins,AL Central,1620000,MLB
 Samuel Basallo,Baltimore Orioles,AL East,1620000,MLB
+Anthony Banda,Minnesota Twins,AL Central,1620000,MLB
 Triston Casas,Boston Red Sox,AL East,1610000,MLB
-Alex Call,Los Angeles Dodgers,NL West,1600000,MLB
 Jalen Beeks,Texas Rangers,AL West,1600000,MLB
+Alex Call,Los Angeles Dodgers,NL West,1600000,MLB
 Enyel De Los Santos,Houston Astros,AL West,1600000,MLB
 Yennier Cano,Baltimore Orioles,AL East,1600000,MLB
-Tanner Rainey,Detroit Tigers,AL Central,1600000,MLB
 Romy Gonzalez,Boston Red Sox,AL East,1600000,MLB
 Michael Massey,Kansas City Royals,AL Central,1570000,MLB
 Tyler Holton,Detroit Tigers,AL Central,1570000,MLB
-Taylor Clarke,Arizona Diamondbacks,NL West,1550000,MLB
 Matt Brash,Seattle Mariners,AL West,1550000,MLB
 Johan Oviedo,Boston Red Sox,AL East,1550000,MLB
 Jimmy Herget,Colorado Rockies,NL West,1550000,MLB
+Taylor Clarke,Arizona Diamondbacks,NL West,1550000,MLB
 Braxton Garrett,Miami Marlins,NL East,1530000,MLB
-Steven Wilson,Tampa Bay Rays,AL East,1520000,MLB
-Edwin Uceta,Tampa Bay Rays,AL East,1520000,MLB
 Jake McCarthy,Colorado Rockies,NL West,1520000,MLB
 Tyler Freeman,Colorado Rockies,NL West,1520000,MLB
-Paul Sewald,Arizona Diamondbacks,NL West,1500000,MLB
-Jonah Heim,Atlanta Braves,NL East,1500000,MLB
-Riley Adams,Washington Nationals,NL East,1500000,MLB
-RamÃ³n UrÃ­as,St. Louis Cardinals,NL Central,1500000,MLB
-Miguel Andujar,San Diego Padres,NL West,1500000,MLB
-MJ Melendez,New York Mets,NL East,1500000,MLB
-Gary SÃ¡nchez,Milwaukee Brewers,NL Central,1500000,MLB
+Edwin Uceta,Tampa Bay Rays,AL East,1520000,MLB
+Steven Wilson,Tampa Bay Rays,AL East,1520000,MLB
+Jacob Webb,Chicago Cubs,NL Central,1500000,MLB
 Colin Holderman,Cleveland Guardians,AL Central,1500000,MLB
+MJ Melendez,New York Mets,NL East,1500000,MLB
+Jonah Heim,Atlanta Braves,NL East,1500000,MLB
+Paul Sewald,Arizona Diamondbacks,NL West,1500000,MLB
+John King,Miami Marlins,NL East,1500000,MLB
+Gary SÃ¡nchez,Milwaukee Brewers,NL Central,1500000,MLB
 Joey Lucchesi,Los Angeles Angels,AL West,1500000,MLB
 JosÃ© Urquidy,Pittsburgh Pirates,NL Central,1500000,MLB
-John King,Miami Marlins,NL East,1500000,MLB
-Jacob Webb,Chicago Cubs,NL Central,1500000,MLB
-Dylan Carlson,Chicago Cubs,NL Central,1500000,MLB
+RamÃ³n UrÃ­as,St. Louis Cardinals,NL Central,1500000,MLB
+Miguel Andujar,San Diego Padres,NL West,1500000,MLB
 Fernando Cruz,New York Yankees,AL East,1450000,MLB
 Jacob Wilson,Athletics,AL West,1430000,MLB
-GÃ©nesis Cabrera,Philadelphia Phillies,NL East,1400000,MLB
-JJ Bleday,Cincinnati Reds,NL Central,1400000,MLB
 Nick Allen,Houston Astros,AL West,1400000,MLB
-Ildemaro Vargas,Arizona Diamondbacks,NL West,1400000,MLB
+JJ Bleday,Cincinnati Reds,NL Central,1400000,MLB
 Sam Hentges,San Francisco Giants,NL West,1400000,MLB
+Ezequiel Duran,Texas Rangers,AL West,1380000,MLB
 Connor Wong,Boston Red Sox,AL East,1380000,MLB
 David Fry,Cleveland Guardians,AL Central,1380000,MLB
-Ezequiel Duran,Texas Rangers,AL West,1380000,MLB
 Ryan Weathers,New York Yankees,AL East,1350000,MLB
-Josiah Gray,Washington Nationals,NL East,1350000,MLB
-Nick Madrigal,Los Angeles Angels,AL West,1350000,MLB
 Alex Jackson,Minnesota Twins,AL Central,1350000,MLB
+Josiah Gray,Washington Nationals,NL East,1350000,MLB
 Reed Garrett,New York Mets,NL East,1300000,MLB
 Brock Stewart,Los Angeles Dodgers,NL West,1300000,MLB
 Tyler Soderstrom,Athletics,AL West,1290000,MLB
 Bryan Baker,Tampa Bay Rays,AL East,1270000,MLB
-Jordan Montgomery,Texas Rangers,AL West,1250000,MLB
 Sam Haggerty,Texas Rangers,AL West,1250000,MLB
-Ben Rortvedt,New York Mets,NL East,1250000,MLB
+Jordan Montgomery,Texas Rangers,AL West,1250000,MLB
 Brent Suter,Los Angeles Angels,AL West,1250000,MLB
-Tyler Austin,Chicago Cubs,NL Central,1250000,MLB
 Jack Suwinski,Los Angeles Dodgers,NL West,1250000,MLB
+Ben Rortvedt,New York Mets,NL East,1250000,MLB
+Tyler Austin,Chicago Cubs,NL Central,1250000,MLB
 Tyler Heineman,Toronto Blue Jays,AL East,1240000,MLB
 Justin Lawrence,Pittsburgh Pirates,NL Central,1230000,MLB
-Andy IbÃ¡Ã±ez,Athletics,AL West,1200000,MLB
 Tanner Banks,Philadelphia Phillies,NL East,1200000,MLB
 Oswaldo Cabrera,New York Yankees,AL East,1200000,MLB
-John Curtiss,Arizona Diamondbacks,NL West,1200000,MLB
-Carson Fulmer,Pittsburgh Pirates,NL Central,1200000,MLB
+Andy IbÃ¡Ã±ez,Athletics,AL West,1200000,MLB
 Reese McGuire,Chicago White Sox,AL Central,1200000,MLB
 Beau Brieske,Detroit Tigers,AL Central,1160000,MLB
 Tyler Alexander,Texas Rangers,AL West,1120000,MLB
-Eli Morgan,Kansas City Royals,AL Central,1100000,MLB
-Cole Sands,Minnesota Twins,AL Central,1100000,MLB
-Josh Sborz,Texas Rangers,AL West,1100000,MLB
-Tayler Saucedo,Los Angeles Angels,AL West,1100000,MLB
 Austin Wynns,Athletics,AL West,1100000,MLB
-Anthony Misiewicz,Cincinnati Reds,NL Central,1100000,MLB
+Cole Sands,Minnesota Twins,AL Central,1100000,MLB
 Angel Zerpa,Milwaukee Brewers,NL Central,1090000,MLB
 Cole Sulser,Tampa Bay Rays,AL East,1050000,MLB
 Huascar BrazobÃ¡n,New York Mets,NL East,1050000,MLB
 Daniel Lynch IV,Kansas City Royals,AL Central,1020000,MLB
-Jorge Alfaro,Kansas City Royals,AL Central,1000000,MLB
-Mason Thompson,Texas Rangers,AL West,1000000,MLB
-Jorge Mateo,Atlanta Braves,NL East,1000000,MLB
-Austin Slater,Miami Marlins,NL East,1000000,MLB
-Matt Festa,Cleveland Guardians,AL Central,1000000,MLB
-Jake Bird,New York Yankees,AL East,1000000,MLB
-Starling Marte,Kansas City Royals,AL Central,1000000,MLB
-Griffin Canning,San Diego Padres,NL West,1000000,MLB
-GermÃ¡n MÃ¡rquez,San Diego Padres,NL West,1000000,MLB
 Shelby Miller,Chicago Cubs,NL Central,1000000,MLB
 Danny Coulombe,Boston Red Sox,AL East,1000000,MLB
+Matt Festa,Cleveland Guardians,AL Central,1000000,MLB
 Andrew Knizner,Colorado Rockies,NL West,1000000,MLB
+Starling Marte,Kansas City Royals,AL Central,1000000,MLB
+Jorge Mateo,Atlanta Braves,NL East,1000000,MLB
+Griffin Canning,San Diego Padres,NL West,1000000,MLB
+Austin Slater,Miami Marlins,NL East,1000000,MLB
+GermÃ¡n MÃ¡rquez,San Diego Padres,NL West,1000000,MLB
+Jake Bird,New York Yankees,AL East,1000000,MLB
