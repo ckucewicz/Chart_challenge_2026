@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 08 — Air Pollution Peaks During Morning Rush Hour · #30DayChartChallenge 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --ink:#0f0e0c; --paper:#f5f2eb; --border:#e0dbd0;
+  --muted:#9a9589; --accent:#c94a2a;
+}
+body { background:var(--paper); color:var(--ink); font-family:'DM Sans',sans-serif; min-height:100vh; }
+
+nav {
+  padding:0.85rem 5vw;
+  border-bottom:1px solid var(--border);
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;
+  color:var(--muted);
+  display:flex; gap:0.5rem; align-items:center;
+}
+nav a { color:var(--accent); text-decoration:none; }
+nav a:hover { text-decoration:underline; }
+nav .sep { color:var(--border); }
+
+.page-wrap { max-width:1100px; margin:0 auto; padding:3rem 5vw 5rem; }
+
+.eyebrow {
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:0.6rem;
+}
+
+h1 {
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(1.9rem,4vw,3rem);
+  line-height:1.08;
+  letter-spacing:-0.02em;
+  margin-bottom:0.5rem;
+}
+
+.subtitle {
+  font-size:1rem;
+  color:var(--muted);
+  line-height:1.6;
+  max-width:640px;
+  margin-bottom:2.5rem;
+}
+
+/* Two-column layout: chart left, context right */
+.chart-layout {
+  display:grid;
+  grid-template-columns:1fr 300px;
+  gap:3rem;
+  align-items:start;
+}
+
+@media (max-width:780px) {
+  .chart-layout { grid-template-columns:1fr; }
+}
+
+.chart-img-wrap {
+  background:var(--paper);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+}
+
+.chart-img-wrap img {
+  width:100%;
+  display:block;
+}
+
+/* Context panel */
+.context-panel { display:flex; flex-direction:column; gap:1.5rem; padding-top:0.5rem; }
+
+.context-block {
+  border-top:2px solid var(--border);
+  padding-top:1rem;
+}
+
+.context-block h3 {
+  font-family:'DM Mono',monospace;
+  font-size:0.65rem;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--muted);
+  margin-bottom:0.6rem;
+}
+
+.context-block p {
+  font-size:0.85rem;
+  line-height:1.65;
+  color:var(--ink);
+}
+
+.stat-row {
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+}
+
+.stat {
+  display:flex;
+  align-items:baseline;
+  gap:0.5rem;
+}
+
+.stat-val {
+  font-family:'DM Serif Display',serif;
+  font-size:1.5rem;
+  color:var(--ink);
+  line-height:1;
+}
+
+.stat-label {
+  font-family:'DM Mono',monospace;
+  font-size:0.62rem;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+}
+
+/* AQI table */
+.aqi-table { width:100%; border-collapse:collapse; margin-top:0.25rem; }
+.aqi-table tr { border-bottom:1px solid var(--border); }
+.aqi-table tr:last-child { border-bottom:none; }
+.aqi-table td {
+  padding:0.35rem 0.5rem 0.35rem 0;
+  font-size:0.78rem;
+  vertical-align:middle;
+}
+.aqi-table td:last-child { text-align:right; color:var(--muted); font-family:'DM Mono',monospace; font-size:0.68rem; }
+
+/* Annual mean callout */
+.mean-callout {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+  border-radius:3px;
+  padding:0.75rem 1rem;
+}
+.mean-val {
+  font-family:'DM Serif Display',serif;
+  font-size:1.6rem;
+  color:var(--accent);
+  line-height:1;
+  white-space:nowrap;
+}
+.mean-desc { font-size:0.78rem; color:var(--muted); line-height:1.5; }
+
+/* Legend */
+.legend-row {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:'DM Mono',monospace;
+  font-size:0.65rem;
+  color:var(--accent);
+}
+.legend-dash {
+  width:28px;
+  border-top:2px dashed var(--accent);
+  flex-shrink:0;
+}
+
+/* Methodology */
+.method-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:0.5rem; }
+.tag {
+  font-family:'DM Mono',monospace;
+  font-size:0.58rem;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  padding:3px 8px;
+  border-radius:2px;
+  background:#ebe7dc;
+  color:var(--muted);
+}
+
+footer {
+  border-top:1px solid var(--border);
+  padding:1.5rem 5vw;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+footer p { font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--muted); }
+footer a { color:var(--accent); text-decoration:none; }
+footer a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../">← 30 Day Chart Challenge 2026</a>
+  <span class="sep">/</span>
+  <span>Day 08 · Distributions · Circular</span>
+</nav>
+
+<div class="page-wrap">
+
+  <p class="eyebrow">Day 08 · April 2026 · Distributions · Circular</p>
+  <h1>Air Pollution Peaks During<br>Morning Rush Hour</h1>
+  <p class="subtitle">Average PM2.5 concentrations by hour of day in Philadelphia, 2024 — measured across 6 EPA monitoring sites. Each bar represents one hour of the day; longer bars and warmer colors indicate higher PM2.5 levels and worse air quality.</p>
+
+  <div class="chart-layout">
+
+    <!-- Chart -->
+    <div class="chart-img-wrap">
+      <img src="pm25_circular_2024.png" alt="Circular histogram showing average PM2.5 by hour of day in Philadelphia 2024. Bars peak around 6–8am and dip in the afternoon. Color gradient goes from green (low) to amber (high).">
+    </div>
+
+    <!-- Context panel -->
+    <div class="context-panel">
+
+      <!-- Annual mean callout -->
+      <div class="context-block">
+        <h3>Philadelphia annual mean</h3>
+        <div class="mean-callout">
+          <div class="mean-val">8.55</div>
+          <div class="mean-desc">µg/m³ annual average<br>✓ Within EPA's healthy standard of 12 µg/m³</div>
+        </div>
+        <div class="legend-row" style="margin-top:0.75rem">
+          <div class="legend-dash"></div>
+          <span>Annual mean shown on chart</span>
+        </div>
+      </div>
+
+      <!-- Key stats -->
+      <div class="context-block">
+        <h3>Key statistics</h3>
+        <div class="stat-row">
+          <div class="stat">
+            <span class="stat-val">9.63</span>
+            <span class="stat-label">µg/m³ · peak hour (7am)</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">7.83</span>
+            <span class="stat-label">µg/m³ · lowest hour (4pm)</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">1.80</span>
+            <span class="stat-label">µg/m³ · daily range</span>
+          </div>
+          <div class="stat">
+            <span class="stat-val">61,609</span>
+            <span class="stat-label">hourly observations · 6 sites</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AQI categories -->
+      <div class="context-block">
+        <h3>EPA Air Quality Index categories</h3>
+        <table class="aqi-table">
+          <tr><td>Good</td><td>0–12 µg/m³</td></tr>
+          <tr><td>Moderate</td><td>12.1–35.4</td></tr>
+          <tr><td>Unhealthy for sensitive groups</td><td>35.5–55.4</td></tr>
+          <tr><td>Unhealthy</td><td>55.5–150.4</td></tr>
+          <tr><td>Very unhealthy</td><td>150.5–250.4</td></tr>
+          <tr><td>Hazardous</td><td>250.5+</td></tr>
+        </table>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.5rem;line-height:1.5;">
+          Philadelphia's 2024 hourly readings fall within the <strong>Good</strong> category for all 24 hours of the day.
+        </p>
+      </div>
+
+      <!-- Methodology -->
+      <div class="context-block">
+        <h3>Methodology</h3>
+        <p>Hourly averages computed by first averaging within each of 6 monitoring sites, then averaging across sites — ensuring equal site weighting regardless of observation count.</p>
+        <div class="method-tags">
+          <span class="tag">EPA AQS API</span>
+          <span class="tag">Parameter 88101</span>
+          <span class="tag">FRM/FEM</span>
+          <span class="tag">R · ggplot2</span>
+        </div>
+      </div>
+
+    </div><!-- /context-panel -->
+  </div><!-- /chart-layout -->
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <p>Built for <a href="https://github.com/30DayChartChallenge/Edition2026" target="_blank">#30DayChartChallenge 2026</a></p>
+  <p><a href="https://github.com/ckucewicz/Chart_challenge_2026" target="_blank">View source on GitHub</a></p>
+</footer>
+
+</body>
+</html>
