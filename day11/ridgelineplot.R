@@ -111,16 +111,15 @@ p <- ggplot(players, aes(
   ) +
   
   labs(
-    title    = "MLB Players Have Gotten Heavier Since the 1980s",
-    subtitle = "Distribution of player weight by debut decade · Vertical bar marks the median weight",
+    #title    = "MLB Players Have Gotten Heavier Since the 1980s",
+    #subtitle = "Distribution of player weight by debut decade · Vertical bar marks the median weight",
     x        = NULL,
-    y        = NULL,
-    caption  = paste0(
-      "Source: Lahman Baseball Database.\n",
-      "Notes: Includes all MLB players with recorded weight who debuted 1980–2024. ",
-      "Weight values are self-reported at debut registration. ",
-      "Each player counted once at debut."
-    )
+    y        = NULL
+    #caption  = paste0(
+   #   "Source: Lahman Baseball Database.\n",
+   #   "Notes: Includes all MLB players with recorded weight who debuted 1980–2024. ",
+   #   "Weight values are self-reported at debut registration. ",
+   #   "Each player counted once at debut."
   ) +
   
   theme_ridges(font_family = "lato", font_size = 16) +
