@@ -94,37 +94,11 @@ p_legend <- ggplot() +
            x = 0.02, xend = 0.09, y = 0.5, yend = 0.5,
            color = "#c94a2a", linewidth = 1.5, linetype = "dashed"
   ) +
-  annotate("text",
-           x = 0.11, y = 0.5,
-           label = "Annual mean (8.55 µg/m³)",
-           hjust = 0, vjust = 0.5,
-           size = 5, family = "lato", color = "#c94a2a"
-  ) +
   xlim(0, 1) + ylim(0, 1) +
   theme_void() +
   theme(
     plot.background = element_rect(fill = "#f5f2eb", color = NA),
     plot.margin     = margin(0, 20, 10, 20)
-  )
-
-# ── Footer ────────────────────────────────────────────────────
-p_source <- ggplot() +
-  annotate("text", x = 0, y = 0.9,
-           label = paste0(
-             "Source: U.S. Environmental Protection Agency, Air Quality System (AQS) API, 2024.\n",
-             "Notes: PM2.5 = fine particulate matter 2.5 micrometers or smaller in diameter. ",
-             "Values are averages across 6 monitoring sites (61,609 hourly observations). ",
-             "Annual mean = 8.55 µg/m³. AQS = Air Quality System."
-           ),
-           hjust = 0, vjust = 1,
-           size = 4, family = "lato",
-           color = "#696969", lineheight = 1.4
-  ) +
-  xlim(0, 1) + ylim(0, 1) +
-  theme_void() +
-  theme(
-    plot.background = element_rect(fill = "#f5f2eb", color = NA),
-    plot.margin     = margin(0, 20, 20, 20)
   )
 
 # ── Combine and save at 8x9 inches, 150 DPI ───────────────────
